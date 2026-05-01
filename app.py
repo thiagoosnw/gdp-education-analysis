@@ -101,7 +101,7 @@ st.sidebar.info(
     """
     **Thiago Alcebiades Rodrigues**
     
-    [thiagoalcebiades@usp.br](mailto:thiagoalcebiades@usp.br)
+    [thiagoalcebiades@usp.br](mailto:thiago.alcebiades@unifesp.br)
     
     [LinkedIn Profile](https://www.linkedin.com/in/thiago-alcebiades-rodrigues-95446621b/)
     """
