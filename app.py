@@ -8,7 +8,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("🎓 Wealth & Education: What's the Relationship?")
+st.title("Wealth & Education: What's the Relationship?")
 st.markdown("This interactive application analyzes the historical correlation between **GDP per Capita (PPP)** and **Mean Years of Schooling** across countries from 1990 to 2023.")
 st.divider()
 
