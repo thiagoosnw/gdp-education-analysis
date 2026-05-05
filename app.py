@@ -3,17 +3,18 @@ import pandas as pd
 import plotly.express as px
 
 st.set_page_config(
-    page_title="Wealth vs Education",
+    page_title="Wealth, Education & PISA",
     page_icon="🎓",
     layout="wide"
 )
 
-st.title("Wealth & Education: What's the Relationship?")
-st.markdown("This interactive application analyzes the historical correlation between **GDP per Capita (PPP)** and **Mean Years of Schooling** across countries from 1990 to 2023.")
+st.title("Wealth, Education & PISA: What's the Relationship?")
+st.markdown("This interactive application analyzes the historical correlation between **GDP per Capita (PPP)**, **Mean Years of Schooling**, and **PISA Scores** across countries.")
 st.divider()
 
 @st.cache_data
 def load_data():
+    # Load GDP Data
     df_wb = pd.read_csv('API_NY.GDP.PCAP.PP.CD_DS2_en_csv_v2_216039.csv', skiprows=4)
     fixed_cols = ['Country Code', 'Country Name']
     years = [str(y) for y in range(1990, 2024)]
@@ -28,6 +29,7 @@ def load_data():
     df_gdp['year'] = pd.to_numeric(df_gdp['year'])
     df_gdp['geo'] = df_gdp['geo'].str.upper()
 
+    # Load Education (Schooling) Data
     df_education = pd.read_excel('hdr-data.xlsx')
     df_education.columns = df_education.columns.str.strip()
     df_education['year'] = pd.to_numeric(df_education['year'], errors='coerce')
@@ -38,6 +40,7 @@ def load_data():
     df_education_final['geo'] = df_education_final['geo'].str.upper()
     df_education_final['years_schooling'] = pd.to_numeric(df_education_final['years_schooling'], errors='coerce')
 
+    # Load Population Data
     df_population = pd.read_csv('API_SP.POP.TOTL_DS2_en_csv_v2_246068.csv', skiprows=4)
     existing_cols_pop = [c for c in fixed_cols + years if c in df_population.columns]
     df_population = df_population[existing_cols_pop].melt(
@@ -50,8 +53,16 @@ def load_data():
     df_population['geo'] = df_population['geo'].str.upper()
     df_population['population'] = pd.to_numeric(df_population['population'], errors='coerce')
 
+    # Merge Initial Data
     df_final = pd.merge(df_gdp, df_education_final, on=['geo', 'year'], how='inner')
     df_final = pd.merge(df_final, df_population[['geo', 'year', 'population']], on=['geo', 'year'], how='left')
+
+    # Load and Merge PISA Data
+    df_pisa = pd.read_csv('pisa_master_dataset.csv')
+    df_pisa['geo'] = df_pisa['geo'].str.upper()
+    df_pisa['year'] = pd.to_numeric(df_pisa['year'])
+    df_final = pd.merge(df_final, df_pisa, on=['geo', 'year'], how='left')
+
     df_final['population_str'] = df_final['population'].apply(
         lambda x: f"{int(x):,}" if pd.notna(x) else "N/A"
     )
@@ -60,7 +71,7 @@ def load_data():
 try:
     df = load_data()
 except Exception as e:
-    st.error("Error loading data. Please check the required files are present in the folder.")
+    st.error(f"Error loading data: {e}. Please check the required files are present.")
     st.stop()
 
 st.sidebar.header("Analysis Filters")
@@ -83,6 +94,21 @@ groups['All countries'] = list(df['geo'].unique())
 selected_group = st.sidebar.selectbox("Choose a Group:", list(groups.keys()))
 country_list = groups[selected_group]
 
+# New Metric Selector
+st.sidebar.divider()
+y_axis_choice = st.sidebar.radio(
+    "Select Y-Axis Metric:",
+    ["Mean Years of Schooling", "PISA Score"]
+)
+
+# Set dynamic column and filter parameters
+if y_axis_choice == "Mean Years of Schooling":
+    y_col = 'years_schooling'
+    y_label = "Years of Schooling"
+else:
+    y_col = 'pisa_score'
+    y_label = "PISA Score"
+
 st.sidebar.divider()
 st.sidebar.markdown("### Data Sources")
 st.sidebar.markdown(
@@ -92,6 +118,9 @@ st.sidebar.markdown(
     
     2. **Education (Mean Years of Schooling):**
     🔗 [UNDP HDR](https://hdr.undp.org/data-center/documentation-and-downloads)
+
+    3. **PISA Scores:**
+    🔗 [OECD PISA](https://www.oecd.org/pisa/)
     """
 )
 
@@ -107,51 +136,54 @@ st.sidebar.info(
     """
 )
 
-st.sidebar.caption(
-    """
-    **Inspiration:**
-    This project was inspired by the work of [Hans Rosling](https://www.gapminder.org/) and the Gapminder foundation.
-    """
-)
-
-df_filtered = df[df['geo'].isin(country_list)].dropna(subset=['gdp_per_capita', 'years_schooling']).copy()
+# Filter Data for Chart
+df_filtered = df[df['geo'].isin(country_list)].dropna(subset=['gdp_per_capita', y_col]).copy()
 df_filtered['population_for_size'] = df_filtered['population'].fillna(1)
 
-st.subheader(f"Historical Evolution: {selected_group}")
+st.subheader(f"Historical Evolution: {selected_group} ({y_label})")
 
 if df_filtered.empty:
-    st.warning("Insufficient data for this group.")
+    st.warning(f"Insufficient data for {y_label} in this group.")
 else:
-    max_x = df_filtered['gdp_per_capita'].max() * 1.3
+    # Dynamic axis scaling
+    min_x = df_filtered['gdp_per_capita'].min() * 0.8
+    max_x = df_filtered['gdp_per_capita'].max() * 1.2
+    min_y = df_filtered[y_col].min() * 0.95
+    max_y = df_filtered[y_col].max() * 1.05
     
     fig = px.scatter(
         df_filtered, 
         x="gdp_per_capita", 
-        y="years_schooling",
+        y=y_col,
         animation_frame="year",      
         animation_group="name",     
         size="population_for_size",      
         color="name",                
         hover_name="name",  
-        custom_data=["gdp_per_capita", "population", "population_str"],   
+        custom_data=["gdp_per_capita", "population", "population_str", y_col],   
         log_x=True,                 
         size_max=60,
-        range_x=[500, max_x],       
-        range_y=[0, 16],
+        range_x=[min_x, max_x],       
+        range_y=[min_y, max_y],
         labels={
             "gdp_per_capita": "GDP per Capita (US$ PPP)",
-            "years_schooling": "Years of Schooling",
+            y_col: y_label,
             "name": "Country",
             "year": "Year"
         }
     )
     
+    # Slow down the animation
+    if fig.layout.updatemenus:
+        fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
+        fig.layout.updatemenus[0].buttons[0].args[1]["transition"]["duration"] = 500
+    
     fig.update_traces(
         hovertemplate=(
-            "<b>%{hovertext}</b>\n"
-            "GDP per Capita (US$ PPP): %{customdata[0]:,.2f}\n"
-            "Population: %{customdata[2]}\n"
-            "Years of Schooling: %{y:.2f}<extra></extra>"
+            "<b>%{hovertext}</b><br>"
+            "GDP per Capita (US$ PPP): %{customdata[0]:,.2f}<br>"
+            "Population: %{customdata[2]}<br>"
+            + y_label + ": %{customdata[3]:.2f}<extra></extra>"
         )
     )
     fig.update_layout(height=600)
