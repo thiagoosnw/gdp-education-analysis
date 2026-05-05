@@ -14,7 +14,6 @@ st.divider()
 
 @st.cache_data
 def load_data():
-    # Load GDP Data
     df_wb = pd.read_csv('API_NY.GDP.PCAP.PP.CD_DS2_en_csv_v2_216039.csv', skiprows=4)
     fixed_cols = ['Country Code', 'Country Name']
     years = [str(y) for y in range(1990, 2024)]
@@ -29,7 +28,6 @@ def load_data():
     df_gdp['year'] = pd.to_numeric(df_gdp['year'])
     df_gdp['geo'] = df_gdp['geo'].str.upper()
 
-    # Load Education (Schooling) Data
     df_education = pd.read_excel('hdr-data.xlsx')
     df_education.columns = df_education.columns.str.strip()
     df_education['year'] = pd.to_numeric(df_education['year'], errors='coerce')
@@ -40,7 +38,6 @@ def load_data():
     df_education_final['geo'] = df_education_final['geo'].str.upper()
     df_education_final['years_schooling'] = pd.to_numeric(df_education_final['years_schooling'], errors='coerce')
 
-    # Load Population Data
     df_population = pd.read_csv('API_SP.POP.TOTL_DS2_en_csv_v2_246068.csv', skiprows=4)
     existing_cols_pop = [c for c in fixed_cols + years if c in df_population.columns]
     df_population = df_population[existing_cols_pop].melt(
@@ -53,11 +50,9 @@ def load_data():
     df_population['geo'] = df_population['geo'].str.upper()
     df_population['population'] = pd.to_numeric(df_population['population'], errors='coerce')
 
-    # Merge Initial Data
     df_final = pd.merge(df_gdp, df_education_final, on=['geo', 'year'], how='inner')
     df_final = pd.merge(df_final, df_population[['geo', 'year', 'population']], on=['geo', 'year'], how='left')
 
-    # Load and Merge PISA Data
     df_pisa = pd.read_csv('pisa_master_dataset.csv')
     df_pisa['geo'] = df_pisa['geo'].str.upper()
     df_pisa['year'] = pd.to_numeric(df_pisa['year'])
@@ -94,14 +89,12 @@ groups['All countries'] = list(df['geo'].unique())
 selected_group = st.sidebar.selectbox("Choose a Group:", list(groups.keys()))
 country_list = groups[selected_group]
 
-# New Metric Selector
 st.sidebar.divider()
 y_axis_choice = st.sidebar.radio(
     "Select Y-Axis Metric:",
     ["Mean Years of Schooling", "PISA Score"]
 )
 
-# Set dynamic column and filter parameters
 if y_axis_choice == "Mean Years of Schooling":
     y_col = 'years_schooling'
     y_label = "Years of Schooling"
@@ -136,7 +129,6 @@ st.sidebar.info(
     """
 )
 
-# Filter Data for Chart
 df_filtered = df[df['geo'].isin(country_list)].dropna(subset=['gdp_per_capita', y_col]).copy()
 df_filtered['population_for_size'] = df_filtered['population'].fillna(1)
 
@@ -145,7 +137,6 @@ st.subheader(f"Historical Evolution: {selected_group} ({y_label})")
 if df_filtered.empty:
     st.warning(f"Insufficient data for {y_label} in this group.")
 else:
-    # Dynamic axis scaling
     min_x = df_filtered['gdp_per_capita'].min() * 0.8
     max_x = df_filtered['gdp_per_capita'].max() * 1.2
     min_y = df_filtered[y_col].min() * 0.95
@@ -173,7 +164,6 @@ else:
         }
     )
     
-    # Slow down the animation
     if fig.layout.updatemenus:
         fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
         fig.layout.updatemenus[0].buttons[0].args[1]["transition"]["duration"] = 500
