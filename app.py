@@ -163,11 +163,7 @@ else:
             "year": "Year"
         }
     )
-    
-    if fig.layout.updatemenus:
-        fig.layout.updatemenus[0].buttons[0].args[1]["frame"]["duration"] = 1500
-        fig.layout.updatemenus[0].buttons[0].args[1]["transition"]["duration"] = 500
-    
+        
     fig.update_traces(
         hovertemplate=(
             "<b>%{hovertext}</b><br>"
