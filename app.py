@@ -162,8 +162,7 @@ with st.sidebar:
 
 st.title("Wealth, Education and PISA")
 st.markdown(
-    "An **Education Efficiency Index** for 57 countries, comparing actual PISA 2022 "
-    "scores with what national income, schooling and institutional quality would predict."
+    "Study of the relationship between national income, schooling, institutional quality and student achievement"
 )
 st.divider()
 
