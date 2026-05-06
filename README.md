@@ -175,8 +175,6 @@ The browser opens at `http://localhost:8501`. The dark theme is forced via `.str
 - Acemoglu, D., Johnson, S., & Robinson, J. A. (2012). *Why Nations Fail*. Crown Business.
 - Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators — 2024 Methodology Update*. World Bank.
 
-## Author and supervision
+## Author
 
 **Thiago Alcebíades Rodrigues** — [thiago.alcebiades@unifesp.br](mailto:thiago.alcebiades@unifesp.br) · [LinkedIn](https://www.linkedin.com/in/thiago-alcebiades-rodrigues-95446621b/)
-
-Supervisor: **Profa. Martha Bianchi**, Departamento de Ciências Atuariais, UNIFESP/EPPEN
