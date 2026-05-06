@@ -1,4 +1,4 @@
-# GDP Lab — Wealth, Education and PISA
+# Wealth, Education and PISA
 
 Cross-country empirical study of the relationship between national income, schooling, institutional quality and student achievement (PISA 2022), with a country-level **Education Efficiency Index** built on the production-function framework of Hanushek (2020) and Dee (2005), augmented with a governance proxy following Acemoglu, Johnson and Robinson (2024 Nobel laureate).
 
