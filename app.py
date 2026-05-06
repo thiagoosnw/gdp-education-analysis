@@ -423,19 +423,19 @@ with tab_drivers:
     )
 
     drivers = [
-        ("spend_per_student",  "Per-student spending (USD PPP, log scale)", True),
-        ("gdp_per_capita",     "GDP per capita (USD PPP, log scale)",       True),
-        ("years_schooling",    "Mean years of schooling",                   False),
-        ("gov_eff",            "Government Effectiveness (-2.5 to +2.5)",   False),
+        ("spend_per_student",  "Spending / student",   "Per-student spending (USD PPP, log scale)", True),
+        ("gdp_per_capita",     "GDP per capita",       "GDP per capita (USD PPP, log scale)",       True),
+        ("years_schooling",    "Years of schooling",   "Mean years of schooling",                   False),
+        ("gov_eff",            "Govt Effectiveness",   "Government Effectiveness (-2.5 to +2.5)",   False),
     ]
 
-    for col, label, log_x in drivers:
+    for col, short_label, axis_label, log_x in drivers:
         sub = eff.dropna(subset=[col, "pisa_score"])
         r = sub[col].corr(sub["pisa_score"])
 
         c1, c2 = st.columns([1, 3])
-        c1.metric(f"Correlation: PISA vs {label.split(' (')[0]}", f"r = {r:+.2f}",
-                  help=f"Pearson correlation across {len(sub)} countries.")
+        c1.metric(short_label, f"r = {r:+.2f}",
+                  help=f"Pearson correlation between PISA 2022 and {short_label.lower()} across {len(sub)} countries.")
         with c2:
             scat = px.scatter(
                 sub,
@@ -447,7 +447,7 @@ with tab_drivers:
                 hover_data={"name": True, col: ":,.2f", "pisa_score": ":.0f", "geo": False},
                 log_x=log_x,
                 template="plotly_dark",
-                labels={col: label, "pisa_score": "PISA 2022 score"},
+                labels={col: axis_label, "pisa_score": "PISA 2022 score"},
             )
             scat.update_traces(textposition="top center")
             xs = sub[col].to_numpy()
