@@ -155,8 +155,6 @@ with st.sidebar:
     st.markdown("### Author")
     st.info(
         "**Thiago Alcebíades Rodrigues**  \n"
-        "Supervisor: **Profa. Martha Bianchi**  \n"
-        "Departamento de Ciências Atuariais — UNIFESP/EPPEN  \n"
         "[thiago.alcebiades@unifesp.br](mailto:thiago.alcebiades@unifesp.br)  \n"
         "[LinkedIn](https://www.linkedin.com/in/thiago-alcebiades-rodrigues-95446621b/)"
     )
