@@ -164,11 +164,8 @@ with st.sidebar:
 
 st.title("Wealth, Education and PISA")
 st.markdown(
-    "Cross-country empirical analysis of the relationship between national income, "
-    "schooling, institutional quality and student achievement, with a country-level "
-    "**Education Efficiency Index** built on the production-function framework of "
-    "Hanushek (2020) and Dee (2005), augmented with a governance proxy following "
-    "Acemoglu, Johnson & Robinson (2024 Nobel laureate)."
+    "An **Education Efficiency Index** for 57 countries, comparing actual PISA 2022 "
+    "scores with what national income, schooling and institutional quality would predict."
 )
 st.divider()
 
@@ -473,86 +470,82 @@ with tab_drivers:
 
 
 with tab_methodology:
-    st.subheader("Methodological note")
+    st.subheader("Methodology")
+
+    st.markdown("### Specification")
     st.markdown(
         r"""
-**Theoretical framework.** Education production functions express achievement $Q$ as
-$Q = F(\text{inputs}, W)$, where $W$ is a vector of student, family and community
-characteristics (Hanushek, 2020). Cross-country implementations of this framework face
-a fundamental data constraint: the granular instructional/non-instructional decomposition
-that Dee (2005) uses for U.S. school districts is not available in comparable form across
-countries. Following supervisor guidance (Bianchi, 2026), this study works with **broad,
-internationally comparable indicators** rather than disaggregated spending categories.
-
-**Empirical specification (preferred).**
-
 $$\ln(\text{PISA}_i) = \theta\,\ln(\text{Spend}_i) + \beta\,\ln(\text{GDP}_i) + \gamma\,\ln(\text{MYS}_i) + \eta\,\text{GovEff}_i + \delta + \varepsilon_i$$
 
-| Variable | Source | Indicator | Year |
-|---|---|---|---|
-| PISA | OECD | mean of math, reading, science (TOT) | 2022 |
-| Per-secondary-student spending | World Bank (UNESCO UIS) | `SE.XPD.SECO.PC.ZS` × GDP per capita PPP | 2015–2018 (latest avail.) |
-| GDP per capita PPP | World Bank | `NY.GDP.PCAP.PP.CD` | 2022 |
-| Mean years of schooling | UNDP HDR | `mys` | 2022 |
-| Government Effectiveness | World Bank WGI | `GOV_WGI_GE.EST` | 2018–2023 (latest avail.) |
-
-**Why governance.** Acemoglu, Johnson and Robinson (2024 Nobel Memorial Prize) document
-that the **institutional environment** is a first-order driver of cross-country differences
-in long-run economic outcomes. Government Effectiveness — captured by the World Bank's
-Worldwide Governance Indicators — proxies the capacity of the public sector to translate
-budgets into services. Including it adds 1.4 percentage points to adjusted R² (0.711 → 0.720)
-and reduces omitted-variable bias on the spending and schooling coefficients.
-
-**Specification search results.**
-
-| Spec | Variables | adj R² | N |
-|---|---|---|---|
-| M1 | Spend, GDP, MYS                       | 0.711 | 56 |
-| M2 | + Total ed exp (% GDP)                 | 0.708 | 56 |
-| M3 (preferred) | + Government Effectiveness   | 0.720 | 56 |
-| M4 | + Total ed exp + Government Effectiveness | 0.718 | 56 |
-
-`xpd_pct_gdp` (total education expenditure as a percentage of GDP) is **not statistically
-significant** in any specification — consistent with Hanushek's central finding that *how
-much* a country spends on education is a poor predictor of student achievement once other
-inputs are accounted for. It is reported alongside the other variables in the country-level
-table for completeness but excluded from the preferred index.
-
-**Robustness — 2SLS with lagged spending.** As a sensitivity check, the notebook estimates
-the same model by 2SLS using lagged per-student spending (2005–2014, World Bank) as an
-instrument for current spending. The first-stage F-statistic is well above the conventional
-threshold of 10, and the 2SLS coefficient on $\ln(\text{Spend})$ is moderately higher than
-OLS, consistent with downward bias in OLS. The efficiency index reported in the dashboard
-is built from the OLS predictions; the 2SLS estimates are kept in the notebook as a
-robustness exercise.
-
-**Efficiency index.**
+Estimated by OLS with HC1-robust standard errors on the cross-section of 57 countries with a PISA 2022 score. The Education Efficiency Index is the standardised residual:
 
 $$\text{EI}_i = \frac{\hat\varepsilon_i - \bar{\hat\varepsilon}}{\hat\sigma_{\hat\varepsilon}}$$
 
-Reported as the regression z-score (range ≈ −3 to +2 in this sample). Positive values
-indicate that a country produces more PISA points than its measurable inputs predict;
-negative values indicate underperformance.
+Reported directly as the z-score. Positive values indicate that a country produces more PISA points than its measurable inputs predict; negative values indicate underperformance.
+        """
+    )
 
-**Prediction versus causal identification.** OLS is appropriate here because the goal is
-**prediction** of $\ln(\text{PISA})$ given inputs, not the recovery of causal elasticities of
-spending or schooling. Strict causal identification would require either panel data with
-within-country variation (not available for PISA at the country level) or stronger
-instruments. This is left for follow-up work, including the time-series and neural-network
-extensions discussed with the supervisor.
+    st.markdown("### Variables and sources")
+    st.markdown(
+        """
+| Variable | Source | Indicator | Year |
+|---|---|---|---|
+| PISA score | OECD | mean of math, reading, science (TOT) | 2022 |
+| Per-secondary-student spending | World Bank (UNESCO UIS) | `SE.XPD.SECO.PC.ZS` × GDP per capita PPP | 2015–2018 |
+| GDP per capita PPP | World Bank | `NY.GDP.PCAP.PP.CD` | 2022 |
+| Mean years of schooling | UNDP HDR | `mys` | 2022 |
+| Government Effectiveness | World Bank WGI | `GOV_WGI_GE.EST` | 2018–2023 |
+| Total education expenditure (% GDP) | World Bank (UNESCO UIS) | `SE.XPD.TOTL.GD.ZS` | 2018–2023 |
+        """
+    )
 
-**Limitations.**
+    st.markdown("### Specification search")
+    st.markdown(
+        """
+| Spec | Variables | adj R² | N |
+|---|---|---|---|
+| M1 | Spend, GDP, MYS                            | 0.711 | 56 |
+| M2 | M1 + Total ed exp (% GDP)                   | 0.708 | 56 |
+| **M3 (preferred)** | M1 + Government Effectiveness | **0.720** | 56 |
+| M4 | M1 + Total ed exp + Government Effectiveness | 0.718 | 56 |
+
+Total education expenditure as a percentage of GDP is not statistically significant in any specification, consistent with Hanushek's finding that the size of the fiscal effort does not predict achievement once other inputs are controlled for. Government Effectiveness contributes positively and is retained in the preferred specification.
+        """
+    )
+
+    st.markdown("### 2SLS robustness check")
+    st.markdown(
+        r"""
+The notebook re-estimates M3 by 2SLS using lagged per-student spending (2005–2014) as instrument for current spending. First-stage F-statistic is 128, well above the conventional threshold of 10. The 2SLS coefficient on $\ln(\text{Spend})$ is moderately higher than OLS, consistent with downward bias in OLS. The dashboard index is built from OLS predictions; 2SLS is reported in the notebook as a sensitivity check.
+        """
+    )
+
+    st.markdown("### Prediction versus causal identification")
+    st.markdown(
+        "OLS is appropriate because the objective is prediction of PISA given inputs, "
+        "not recovery of causal elasticities. Causal identification would require panel "
+        "data with within-country variation or stronger instruments, which is left for "
+        "follow-up work."
+    )
+
+    st.markdown("### Limitations")
+    st.markdown(
+        """
 1. Cross-section of 57 countries — limited statistical power.
-2. PISA captures one cohort and three subjects only.
-3. Spending observations span 2015–2018 (latest WB availability), not 2022.
-4. Sociodemographic controls $W$ are limited to GDP, MYS and GovEff.
-5. The Government Effectiveness indicator is itself a perception-based composite.
+2. PISA captures one cohort and three subjects.
+3. Spending observations span 2015–2018, not 2022.
+4. Sociodemographic controls limited to GDP, MYS and GovEff.
+5. Government Effectiveness is a perception-based composite.
+        """
+    )
 
-**References.**
+    st.markdown("### References")
+    st.markdown(
+        """
 - Hanushek, E. A. (2020). *Education production functions*. The Economics of Education, 2nd ed., Elsevier.
 - Hanushek, E. A. (1986). The economics of schooling: Production and efficiency in public schools. *Journal of Economic Literature*, 24(3).
 - Dee, T. S. (2005). Expense preference and student achievement in school districts. *Eastern Economic Journal*, 31(1).
-- Acemoglu, D., Johnson, S., & Robinson, J. A. (2012). *Why Nations Fail*. Crown Business. (Theoretical motivation for the institutional control.)
+- Acemoglu, D., Johnson, S., & Robinson, J. A. (2012). *Why Nations Fail*. Crown Business.
 - Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators — 2024 Methodology Update*. World Bank.
         """
     )
