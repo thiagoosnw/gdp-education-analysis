@@ -1,37 +1,41 @@
-# Wealth, Education and PISA
+# GDP Lab — Wealth, Education and PISA
 
-Cross-country empirical study of the relationship between national income, schooling, institutional quality and student achievement (PISA 2022), with a country-level **Education Efficiency Index** built on the production-function framework of Hanushek (2020) and Dee (2005), augmented with a governance proxy following Acemoglu, Johnson and Robinson (2024 Nobel laureate).
+Cross-country empirical study of the relationship between national income, schooling, institutional quality and student achievement (PISA 2022), with a country-level **Education Efficiency Index** built on the production-function framework of Hanushek (2020) and Dee (2005), augmented with a governance proxy following Acemoglu, Johnson and Robinson (2024 Nobel laureate). The log-linear specification is benchmarked against non-linear alternatives (Ridge polynomial regression and a small MLP) by 5-fold cross-validation.
 
-Delivered as an interactive Streamlit dashboard backed by a reproducible Jupyter notebook.
+Delivered as an interactive Streamlit dashboard (Portuguese / English) backed by a reproducible Jupyter notebook.
+
+> Para um resumo do projeto em português (≈ 500 palavras), veja [`RESUMO.md`](RESUMO.md).
 
 ## What the project does
 
 1. Combines six official datasets (World Bank, UNDP, OECD) into a longitudinal cross-country panel covering 1990–2023.
 2. Estimates an **education production function** by OLS (preferred) and 2SLS (robustness), with spending, GDP per capita, mean years of schooling and Government Effectiveness as drivers, on 57 countries with PISA 2022 data.
-3. Presents the analysis through a dashboard with four tabs: historical panel evolution, country-level efficiency ranking, driver-level correlations, and methodology.
+3. Compares the log-linear OLS to non-linear alternatives — Ridge polynomial regression (degree 2) and an MLP regressor — under matched 5-fold cross-validation, to test whether non-linear interactions add out-of-sample explanatory power.
+4. Presents the analysis through a five-tab Streamlit dashboard: historical evolution, country-level efficiency ranking, driver correlations, a what-if simulator, and methodology.
 
 ## Repository layout
 
 ```
 gdp_lab/
 ├── README.md                          # this file
+├── RESUMO.md                          # 500-word PT abstract
 ├── app.py                             # Streamlit dashboard
 ├── efficiency_index.ipynb             # statistical pipeline (notebook)
-├── convert.ipynb                      # PISA data preparation (notebook)
 ├── requirements.txt                   # Python dependencies
-├── install.cmd                        # Windows installer for venv + deps
-├── .streamlit/config.toml             # forces dark theme for consistent contrast
-├── OECD PISA data.csv                 # raw PISA historical waves  (input to convert.ipynb)
-├── pisa-scores-by-country-2026.csv    # raw PISA 2022 wave         (input to convert.ipynb)
+├── install.cmd                        # Windows installer (creates .venv, installs deps)
+├── .streamlit/config.toml             # Streamlit primary colour and server flags
+├── .devcontainer/devcontainer.json    # GitHub Codespaces / VS Code Remote container
+├── .gitignore
 ├── data/                              # working datasets consumed by the app
-│   ├── API_NY.GDP.PCAP.PP.CD_*.csv    # World Bank GDP per capita PPP
-│   ├── API_SP.POP.TOTL_*.csv          # World Bank population
-│   ├── hdr-data.xlsx                  # UNDP HDR mean years of schooling
-│   ├── pisa_master_dataset.csv        # cleaned PISA panel (output of convert.ipynb)
-│   ├── _wb_xpd_seco.json              # WB SE.XPD.SECO.PC.ZS, latest 2015–2018
-│   ├── _wb_xpd_seco_lag.json          # WB SE.XPD.SECO.PC.ZS, lagged 2005–2014 (instrument)
-│   ├── _wb_xpd_totl_gdp.json          # WB SE.XPD.TOTL.GD.ZS, total ed exp (% of GDP)
-│   ├── _wb_wgi_ge.json                # WB GOV_WGI_GE.EST, Government Effectiveness
+│   ├── API_NY.GDP.PCAP.PP.CD_*.csv    # World Bank GDP per capita PPP (bulk download)
+│   ├── API_SP.POP.TOTL_*.csv          # World Bank Population (bulk download)
+│   ├── hdr-data.xlsx                  # UNDP Human Development Report — mean years of schooling
+│   ├── _wb_xpd_seco.json              # WB API: SE.XPD.SECO.PC.ZS, latest 2015–2018
+│   ├── _wb_xpd_seco_lag.json          # WB API: SE.XPD.SECO.PC.ZS, lagged 2005–2014 (instrument)
+│   ├── _wb_xpd_totl_gdp.json          # WB API: SE.XPD.TOTL.GD.ZS, total ed exp (% of GDP)
+│   ├── _wb_wgi_ge.json                # WB API: GOV_WGI_GE.EST, Government Effectiveness
+│   ├── build_pisa_panel.py            # rebuilds pisa_master_dataset.csv from WB API + OECD 2022
+│   ├── pisa_master_dataset.csv        # PISA panel (output of build_pisa_panel.py)
 │   └── efficiency_index.csv           # output of efficiency_index.ipynb
 └── knowledge/                         # reference papers (PDFs)
     ├── Hanushek 2020 Education Production Functions_0 (1).pdf
@@ -45,19 +49,20 @@ gdp_lab/
 
 ## Data sources
 
-All data come from official statistical authorities. No private or unverifiable source is used.
+Every dataset in this repository comes from an official statistical authority — World Bank, UNDP or OECD. No third-party aggregator or scraped page is used.
 
-| Variable | Provider | Indicator code | URL |
+| Variable | Provider | Indicator / source | Authoritative URL |
 |---|---|---|---|
 | GDP per capita PPP (current international USD) | World Bank | `NY.GDP.PCAP.PP.CD` | https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD |
 | Total population | World Bank | `SP.POP.TOTL` | https://data.worldbank.org/indicator/SP.POP.TOTL |
 | Government expenditure per secondary student (% of GDP per capita) | World Bank (UNESCO UIS) | `SE.XPD.SECO.PC.ZS` | https://data.worldbank.org/indicator/SE.XPD.SECO.PC.ZS |
 | Total government expenditure on education (% of GDP) | World Bank (UNESCO UIS) | `SE.XPD.TOTL.GD.ZS` | https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS |
 | Government Effectiveness (WGI) | World Bank | `GOV_WGI_GE.EST` | https://www.worldbank.org/en/publication/worldwide-governance-indicators |
-| PISA scores (math, reading, science) | OECD | direct download | https://www.oecd.org/pisa/ |
-| Mean years of schooling | UNDP Human Development Report | `mys` | https://hdr.undp.org/data-center/documentation-and-downloads |
+| Mean years of schooling | UNDP Human Development Report | indicator `mys` | https://hdr.undp.org/data-center/documentation-and-downloads |
+| PISA scores 2000–2018 (math, reading, science) | World Bank (ingests OECD PISA) | `LO.PISA.MAT`, `LO.PISA.REA`, `LO.PISA.SCI` | https://data.worldbank.org/indicator/LO.PISA.MAT |
+| PISA scores 2022 (math, reading, science) | OECD | PISA 2022 Results, Vol. I, Annex B1 (Tables I.B1.5.1, I.B1.6.1, I.B1.7.1) | https://doi.org/10.1787/53f23881-en |
 
-The lagged spending observations (2005–2014) used as the 2SLS instrument come from the same World Bank indicator queried for an earlier date range.
+The lagged spending observations (2005–2014) used as the 2SLS instrument come from the same World Bank indicator queried for an earlier date range. The PISA 2022 country mean scores are reproduced verbatim from the OECD's Volume I publication tables in [`data/build_pisa_panel.py`](data/build_pisa_panel.py); the script also pulls 2000–2018 directly from the World Bank API and writes `data/pisa_master_dataset.csv`.
 
 ## Methodology
 
@@ -99,6 +104,19 @@ The notebook also estimates the M3 model by 2SLS using lagged per-student spendi
 
 The 2SLS spending coefficient is moderately higher than OLS, consistent with the downward bias predicted by Dee (2005). The dashboard reports the OLS predictions; 2SLS is kept in the notebook as a sensitivity check.
 
+### Comparison with non-linear methods
+
+The log-linear M3 specification is benchmarked against three alternatives that match exactly the same input set, reporting **5-fold cross-validated R²**:
+
+| Model | Functional form | CV R² |
+|---|---|---|
+| M3 — OLS log-linear | linear in logs | 0.52 |
+| M3+ — OLS + Spend × GovEff | linear with single interaction | 0.45 |
+| **M5 — Ridge polynomial (deg 2, α=5)** | polynomial in scaled inputs, L2-regularised | **0.65** |
+| M6 — MLP (1 layer, 4 units, tanh, α=1) | small neural network | 0.62 |
+
+Ridge polynomial regression delivers the best out-of-sample fit; the MLP reaches similar performance with much higher specification cost. With *N = 57*, all CV estimates carry a standard deviation of roughly 0.2, so the 13-pp gap between OLS and ridge polynomial is consistent in sign but not large in magnitude. The published efficiency index keeps the OLS specification because (i) coefficients have direct elasticity interpretation, (ii) HC1-robust standard errors and the 2SLS robustness check are well-established for it, and (iii) the non-linear models do not produce reportable elasticities. The non-linear comparison is documented in the dashboard's *Methodology* tab as a methodological complement, not as the published estimator.
+
 ### Efficiency Index
 
 $$\text{EI}_i = \frac{\hat\varepsilon_i - \bar{\hat\varepsilon}}{\hat\sigma_{\hat\varepsilon}}$$
@@ -122,34 +140,43 @@ The country efficiency score is the **standardised regression residual** (z-scor
 3. Spending observations span 2015–2018 (latest WB availability), not 2022.
 4. Sociodemographic controls $W$ are limited to GDP, MYS and GovEff.
 5. The WGI Government Effectiveness indicator is itself a perception-based composite.
-6. Strict causal identification would require panel data with within-country variation (not available for PISA at the country level) or stronger instruments. Time-series and neural-network extensions are deferred to follow-up work.
+6. Strict causal identification would require panel data with within-country variation (not available for PISA at the country level) or stronger instruments.
 
 ## How the app is structured
 
-`app.py` exposes four tabs:
+`app.py` exposes five tabs and ships with PT/EN translation, a light/dark theme toggle, and URL-persisted state for language, theme and country group.
 
-1. **Historical Panel** — animated bubble chart of GDP per capita versus PISA score (or mean years of schooling), 1990–2023. Bubbles sized by population. When the metric is PISA, the animation iterates only over the eight PISA wave years (2000, 2003, 2006, 2009, 2012, 2015, 2018, 2022) so bubbles do not "teleport" across off-years.
-2. **Education Efficiency Index** — country ranking by efficiency z-score, with an alternative ranking by PISA-per-1 000-USD spent. Includes a scatter of spending versus achievement and a country-level table with all model inputs and outputs.
-3. **Drivers Correlations** — bivariate scatters of PISA versus each driver (spending, GDP, MYS, Government Effectiveness) with Pearson correlations and OLS-fit lines. This view supports the supervisor's recommendation of presenting "data with easy correlation, visually presentable in the dashboard".
-4. **Methodology** — full theoretical framework, empirical specification, specification search, OLS vs 2SLS, identification diagnostics, limitations and references.
+1. **Historical Panel** — animated bubble chart of GDP per capita versus the chosen y-axis metric, 1990–2023. Bubbles sized by population, with thin contrasting borders (Gapminder style). The default metric is **mean years of schooling**, which has continuous coverage. When the user switches to PISA, the panel renders a static **2022 cross-section** plus a separate longitudinal line chart for the subset of countries with three or more PISA waves — this avoids the misleading "spawning bubbles" effect produced when 38 of 84 countries only joined PISA in 2022.
+2. **Education Efficiency Index** — country ranking by efficiency z-score, with an alternative ranking by PISA-per-1 000-USD-spent. A bootstrap (B = 300) confidence-interval toggle estimates the stability of the ranking and is critical for reading high-z surprises (Türkiye, Ukraine). Includes a spending-vs-achievement scatter and a country-level table with all model inputs and outputs.
+3. **Drivers Correlations** — bivariate scatters of PISA versus each driver (spending, GDP, MYS, Government Effectiveness) with Pearson correlations and OLS-fit lines.
+4. **Simulator** — what-if interface backed by the M3 OLS coefficients. The user picks a baseline country and four sliders (Spend, GDP, MYS, GovEff). The dashboard reports actual PISA, predicted PISA at the baseline, predicted PISA under the scenario, and a per-driver decomposition of the change. A **Reset** button restores all sliders to the baseline country's actual values.
+5. **Methodology** — full theoretical framework, empirical specification, specification search, OLS vs 2SLS, comparison with non-linear methods, model diagnostics (predicted vs actual, residual histogram, residuals vs fitted), limitations and references.
 
-The sidebar carries a single country-group filter (G7, G20, EU, BRICS+, South America, Latin America, etc.) that drives all tabs. When a selected group has fewer than three countries with efficiency data, the app falls back to the full sample with an informational banner.
+The sidebar carries language/theme toggles, a country-group filter (G7, G20, EU, BRICS+, South America, Latin America, etc.) shared by all tabs, the y-axis selector, an optional "highlight countries" multiselect, a collapsible data-sources block, and the author block. When a selected group has fewer than three countries with efficiency data, the app falls back to the full sample with an informational banner.
 
 ## Reproducing the analysis
 
 ### Setup
 
+Linux / macOS:
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### Re-build the PISA panel (if needed)
+Windows (creates a local `.venv` and installs everything):
 
-```bash
-jupyter nbconvert --to notebook --execute convert.ipynb
+```cmd
+install.cmd
 ```
 
-This reads `OECD PISA data.csv` (historical waves) and `pisa-scores-by-country-2026.csv` (2022 wave) and produces `data/pisa_master_dataset.csv`.
+### Re-build the PISA panel
+
+```bash
+python data/build_pisa_panel.py
+```
+
+Pulls historical PISA waves (2000–2018) directly from the **World Bank** indicators `LO.PISA.MAT`, `LO.PISA.REA` and `LO.PISA.SCI` — which ingest the official OECD cross-country mean scores under clean ISO3 codes — and combines them with the 2022 wave reproduced verbatim from **OECD PISA 2022 Results, Volume I (Annex B1)**, embedded as a Python dict in the script with the exact OECD table reference. The output `data/pisa_master_dataset.csv` covers 91 countries across eight PISA waves.
 
 ### Re-build the efficiency index
 
@@ -157,7 +184,7 @@ This reads `OECD PISA data.csv` (historical waves) and `pisa-scores-by-country-2
 jupyter nbconvert --to notebook --execute efficiency_index.ipynb
 ```
 
-The notebook reads from `data/`, runs OLS (M3 preferred) and 2SLS (robustness), and writes `data/efficiency_index.csv`.
+Reads from `data/`, runs OLS (M3 preferred) and 2SLS (robustness), and writes `data/efficiency_index.csv`.
 
 ### Run the dashboard
 
@@ -165,7 +192,7 @@ The notebook reads from `data/`, runs OLS (M3 preferred) and 2SLS (robustness), 
 streamlit run app.py
 ```
 
-The browser opens at `http://localhost:8501`. The dark theme is forced via `.streamlit/config.toml` for consistent contrast across operating systems.
+The browser opens at `http://localhost:8501`. Language and theme can be switched at the top of the sidebar; both are persisted in the URL so views are shareable.
 
 ## References
 
@@ -175,6 +202,8 @@ The browser opens at `http://localhost:8501`. The dark theme is forced via `.str
 - Acemoglu, D., Johnson, S., & Robinson, J. A. (2012). *Why Nations Fail*. Crown Business.
 - Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators — 2024 Methodology Update*. World Bank.
 
-## Author
+## Author and supervision
 
 **Thiago Alcebíades Rodrigues** — [thiago.alcebiades@unifesp.br](mailto:thiago.alcebiades@unifesp.br) · [LinkedIn](https://www.linkedin.com/in/thiago-alcebiades-rodrigues-95446621b/)
+
+Supervisor: **Profa. Martha Bianchi**, Departamento de Ciências Atuariais, UNIFESP/EPPEN
