@@ -72,7 +72,7 @@ I18N = {
             "- **PIB per capita PPC** — [World Bank `NY.GDP.PCAP.PP.CD`](https://data.worldbank.org/indicator/NY.GDP.PCAP.PP.CD)\n"
             "- **População** — [World Bank `SP.POP.TOTL`](https://data.worldbank.org/indicator/SP.POP.TOTL)\n"
             "- **Anos médios de escolaridade** — [UNDP HDR](https://hdr.undp.org/data-center/documentation-and-downloads)\n"
-            "- **Escores PISA** — [OECD](https://www.oecd.org/pisa/)\n"
+            "- **Pontuação PISA** — [OECD](https://www.oecd.org/pisa/)\n"
             "- **Gasto por aluno do secundário** — [WB `SE.XPD.SECO.PC.ZS`](https://data.worldbank.org/indicator/SE.XPD.SECO.PC.ZS)\n"
             "- **Gasto total em educação (% PIB)** — [WB `SE.XPD.TOTL.GD.ZS`](https://data.worldbank.org/indicator/SE.XPD.TOTL.GD.ZS)\n"
             "- **Eficácia governamental (WGI)** — [WB Worldwide Governance Indicators](https://www.worldbank.org/en/publication/worldwide-governance-indicators)"
@@ -165,7 +165,7 @@ I18N = {
         "col_z": "z-score de eficiência",
         "drivers_subtitle": "Como cada motor se correlaciona com o PISA",
         "drivers_description": (
-            "Associações bivariadas entre o escore PISA 2022 e os quatro motores candidatos do "
+            "Associações bivariadas entre a Pontuação PISA 2022 e os quatro motores candidatos do "
             "modelo de eficiência. Cada painel inclui uma reta de ajuste por OLS; o número em "
             "destaque é a correlação de Pearson simples."
         ),
@@ -180,8 +180,8 @@ I18N = {
         "driver_help": "Correlação de Pearson entre o PISA 2022 e {label} em {n} países.",
         "sim_subtitle": "Simulador",
         "sim_description": (
-            "Mova os controles para alterar as variáveis do modelo M3 e veja como o escore PISA "
-            "previsto muda. Os coeficientes vêm da estimação OLS atual sobre o conjunto de "
+            "Mova os controles para alterar as variáveis do modelo M3 e veja como a Pontuação PISA "
+            "prevista muda. Os coeficientes vêm da estimação OLS atual sobre o conjunto de "
             "países com dados completos."
         ),
         "sim_baseline": "País de referência",
@@ -204,7 +204,7 @@ I18N = {
             r"$$\ln(\text{PISA}_i) = \theta\,\ln(\text{Spend}_i) + \beta\,\ln(\text{GDP}_i) + \gamma\,\ln(\text{MYS}_i) + \eta\,\text{GovEff}_i + \delta + \varepsilon_i$$"
             "\n\n"
             "Estimada por OLS com erros-padrão robustos HC1 sobre o corte transversal de 57 "
-            "países com escore PISA 2022. O Índice de Eficiência Educacional é o resíduo "
+            "países com Pontuação PISA 2022. O Índice de Eficiência Educacional é o resíduo "
             "padronizado:\n\n"
             r"$$\text{EI}_i = \frac{\hat\varepsilon_i - \bar{\hat\varepsilon}}{\hat\sigma_{\hat\varepsilon}}$$"
             "\n\n"
@@ -216,7 +216,7 @@ I18N = {
         "meth_variables_md": (
             "| Variável | Fonte | Indicador | Ano |\n"
             "|---|---|---|---|\n"
-            "| Escore PISA | OECD | média de matemática, leitura e ciências (TOT) | 2022 |\n"
+            "| Pontuação PISA | OECD | média de matemática, leitura e ciências (TOT) | 2022 |\n"
             "| Gasto por aluno do secundário | WB (UNESCO UIS) | `SE.XPD.SECO.PC.ZS` × PIB per capita PPC | 2015–2018 |\n"
             "| PIB per capita PPC | World Bank | `NY.GDP.PCAP.PP.CD` | 2022 |\n"
             "| Anos médios de escolaridade | UNDP HDR | `mys` | 2022 |\n"
@@ -276,7 +276,7 @@ I18N = {
         ),
         "meth_pred_causal": "Predição vs. identificação causal",
         "meth_pred_causal_md": (
-            "OLS é apropriado porque o objetivo é prever o PISA dados os insumos, não "
+            "OLS é apropriado porque o objetivo é prever a Pontuação PISA dados os insumos, não "
             "recuperar elasticidades causais. Identificação causal estrita exigiria dados em "
             "painel com variação dentro do país ou instrumentos mais fortes — adiados para "
             "trabalhos futuros."
