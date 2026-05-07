@@ -85,9 +85,9 @@ Following supervisor guidance and Acemoglu, Johnson & Robinson (Nobel Memorial P
 
 | Spec | Variables | Adj R² | N |
 |---|---|---|---|
-| M1 | Spend + GDP + MYS                            | 0.711 | 56 |
+| M1 | Spend + GDP + MYS                            | 0.704 | 57 |
 | M2 | + Total ed exp (% GDP)                        | 0.708 | 56 |
-| **M3 (preferred)** | + Government Effectiveness | **0.720** | 56 |
+| **M3 (preferred)** | + Government Effectiveness | **0.715** | 57 |
 | M4 | + Total ed exp + Government Effectiveness     | 0.718 | 56 |
 
 `xpd_pct_gdp` (total education expenditure as a percentage of GDP) is **not statistically significant** in any specification — consistent with Hanushek's central finding that *how much* a country spends on education is a poor predictor of student achievement once other inputs are accounted for.
@@ -102,7 +102,7 @@ The notebook also estimates the M3 model by 2SLS using lagged per-student spendi
 | Partial R² of instrument | 0.74 | Lagged spending explains 74% of current-spending variance after controls |
 | Order condition | just-identified | Single endogenous regressor, single instrument |
 
-The 2SLS spending coefficient is moderately higher than OLS, consistent with the downward bias predicted by Dee (2005). The dashboard reports the OLS predictions; 2SLS is kept in the notebook as a sensitivity check.
+The 2SLS point estimate on log spending (0.041) is moderately higher than the OLS counterpart (0.027), consistent in sign with the downward bias predicted by Dee (2005). Neither coefficient is individually significant at conventional levels (p = 0.28 and 0.46 respectively), so the comparison is informative about direction but not magnitude. The dashboard reports the OLS predictions; 2SLS is kept in the notebook as a sensitivity check.
 
 ### Comparison with non-linear methods
 

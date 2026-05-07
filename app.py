@@ -227,9 +227,9 @@ I18N = {
         "meth_search_md": (
             "| Spec | Variáveis | R² ajustado | N |\n"
             "|---|---|---|---|\n"
-            "| M1 | Spend, GDP, MYS                            | 0,711 | 56 |\n"
+            "| M1 | Spend, GDP, MYS                            | 0,704 | 57 |\n"
             "| M2 | M1 + Gasto total em educação (% PIB)        | 0,708 | 56 |\n"
-            "| **M3 (preferido)** | M1 + Eficácia governamental | **0,720** | 56 |\n"
+            "| **M3 (preferido)** | M1 + Eficácia governamental | **0,715** | 57 |\n"
             "| M4 | M1 + Gasto total + Eficácia governamental    | 0,718 | 56 |\n\n"
             "O gasto total em educação como percentual do PIB não é estatisticamente "
             "significativo em nenhuma especificação, em linha com Hanushek: o tamanho do "
@@ -269,10 +269,12 @@ I18N = {
         "meth_2sls": "Verificação de robustez por 2SLS",
         "meth_2sls_md": (
             "O notebook reestima M3 por 2SLS usando o gasto por aluno defasado (2005–2014) "
-            r"como instrumento para o gasto corrente. A estatística F do primeiro estágio é 128, bem acima do limiar convencional de 10. O coeficiente 2SLS sobre $\ln(\text{Spend})$ é "
-            "moderadamente maior que o de OLS, consistente com viés para baixo no OLS. O "
-            "índice do dashboard é construído a partir das predições de OLS; o 2SLS é "
-            "reportado no notebook como verificação de sensibilidade."
+            r"como instrumento para o gasto corrente. A estatística F do primeiro estágio é 128, bem acima do limiar convencional de 10. O ponto do coeficiente 2SLS sobre $\ln(\text{Spend})$ "
+            "(0,041) é moderadamente maior que o de OLS (0,027), consistente em sinal com viés "
+            "para baixo no OLS; nenhum dos dois é significativo individualmente (p = 0,28 e "
+            "0,46), de modo que a comparação é informativa quanto à direção, não quanto à "
+            "magnitude. O índice do dashboard é construído a partir das predições de OLS; o "
+            "2SLS é reportado no notebook como verificação de sensibilidade."
         ),
         "meth_pred_causal": "Predição vs. identificação causal",
         "meth_pred_causal_md": (
@@ -483,9 +485,9 @@ I18N = {
         "meth_search_md": (
             "| Spec | Variables | adj R² | N |\n"
             "|---|---|---|---|\n"
-            "| M1 | Spend, GDP, MYS                            | 0.711 | 56 |\n"
+            "| M1 | Spend, GDP, MYS                            | 0.704 | 57 |\n"
             "| M2 | M1 + Total ed exp (% GDP)                   | 0.708 | 56 |\n"
-            "| **M3 (preferred)** | M1 + Government Effectiveness | **0.720** | 56 |\n"
+            "| **M3 (preferred)** | M1 + Government Effectiveness | **0.715** | 57 |\n"
             "| M4 | M1 + Total ed exp + Government Effectiveness | 0.718 | 56 |\n\n"
             "Total education expenditure as a percentage of GDP is not statistically "
             "significant in any specification, consistent with Hanushek's finding that the "
@@ -526,9 +528,11 @@ I18N = {
         "meth_2sls_md": (
             "The notebook re-estimates M3 by 2SLS using lagged per-student spending "
             "(2005–2014) as instrument for current spending. First-stage F-statistic is 128, "
-            r"well above the conventional threshold of 10. The 2SLS coefficient on $\ln(\text{Spend})$ is moderately higher than OLS, consistent with downward bias in OLS. The "
-            "dashboard index is built from OLS predictions; 2SLS is reported in the notebook "
-            "as a sensitivity check."
+            r"well above the conventional threshold of 10. The 2SLS point estimate on $\ln(\text{Spend})$ (0.041) is moderately higher than OLS (0.027), consistent in sign with downward bias in OLS; "
+            "neither coefficient is individually significant (p = 0.28 and 0.46), so the "
+            "comparison is informative about direction, not magnitude. The dashboard index is "
+            "built from OLS predictions; 2SLS is reported in the notebook as a sensitivity "
+            "check."
         ),
         "meth_pred_causal": "Prediction versus causal identification",
         "meth_pred_causal_md": (

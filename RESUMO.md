@@ -22,19 +22,21 @@ Mundial). A variável dependente é a média 2022 das três áreas do PISA. A
 inclusão da governança segue o argumento institucionalista de Acemoglu, Johnson
 e Robinson (Prêmio Nobel de 2024): a capacidade do setor público de converter
 orçamento em serviço educacional é uma covariável de primeira ordem para o
-desempenho de longo prazo. M3 atinge R² ajustado de 0,720; o gasto total em
-educação como percentual do PIB não foi estatisticamente significativo em
-nenhuma especificação testada — em linha com o resultado central de Hanushek
-(2020) de que o tamanho do esforço fiscal não prediz a aprendizagem uma vez
-controlados outros insumos.
+desempenho de longo prazo. M3 atinge R² ajustado de 0,715 sobre 57 países; o
+gasto total em educação como percentual do PIB não foi estatisticamente
+significativo em nenhuma especificação testada — em linha com o resultado
+central de Hanushek (2020) de que o tamanho do esforço fiscal não prediz a
+aprendizagem uma vez controlados outros insumos.
 
 A robustez foi verificada por mínimos quadrados em dois estágios (2SLS),
 instrumentando o gasto corrente pelo gasto defasado (2005–2014). A estatística
-F do primeiro estágio é 128, bem acima do limiar convencional de 10. O
-coeficiente IV sobre ln(Gasto) é moderadamente superior ao OLS, consistente
-com o viés para baixo previsto em Dee (2005). A escolha pelo OLS no painel
-final segue da motivação de previsão (e não de identificação causal estrita) e
-da maior interpretabilidade dos coeficientes.
+F do primeiro estágio é 128, bem acima do limiar convencional de 10. O ponto
+do coeficiente IV sobre ln(Gasto) (0,041) é moderadamente superior ao do OLS
+(0,027), consistente em sinal com o viés para baixo previsto em Dee (2005);
+nenhum dos dois é significativo individualmente (p = 0,28 e 0,46), de modo que
+a comparação é informativa quanto à direção, não quanto à magnitude. A escolha
+pelo OLS no painel final segue da motivação de previsão (e não de
+identificação causal estrita) e da maior interpretabilidade dos coeficientes.
 
 Como complemento metodológico, comparei a especificação log-linear com
 alternativas não-lineares — regressão **polinomial de grau 2 com regularização
