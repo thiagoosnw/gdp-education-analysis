@@ -465,8 +465,15 @@ DIVERGING = T["diverging"]
 
 
 def show_chart(fig, **kwargs):
-    """Render a plotly figure with transparent backgrounds so the page theme shows through."""
+    """Render a plotly figure with transparent backgrounds so the page theme shows through.
+
+    Charts inside st.tabs do not always get a correct width on the first paint
+    (Plotly captures the width of a hidden, zero-sized container). Forcing
+    autosize and Plotly's responsive config makes the chart re-measure on
+    every tab switch, which keeps the layout from collapsing.
+    """
     fig.update_layout(
+        autosize=True,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
         font=dict(color=T["text"]),
@@ -487,7 +494,8 @@ def show_chart(fig, **kwargs):
         coloraxis=dict(colorbar=dict(tickfont=dict(color=T["text"]),
                                        title=dict(font=dict(color=T["text"])))),
     )
-    st.plotly_chart(fig, **kwargs)
+    config = {"responsive": True, **kwargs.pop("config", {})}
+    st.plotly_chart(fig, config=config, **kwargs)
 
 
 # ============================================================
@@ -859,7 +867,7 @@ with tab_mys:
                     if button.label == "▶":
                         button.args[1]["frame"]["duration"] = 200
                         button.args[1]["transition"]["duration"] = 200
-        show_chart(fig, width="stretch")
+        show_chart(fig, width="stretch", key=f"chart_mys_{selected_group}")
 
         st.markdown(
             f"<span class='footnote'>{t('footnote_bubble')}</span>",
@@ -944,7 +952,7 @@ with tab_pisa:
         )
         _style_bubbles(fig, hover_template)
         fig.update_layout(height=620, legend_title_text=t("country"))
-        show_chart(fig, width="stretch")
+        show_chart(fig, width="stretch", key=f"chart_pisa_{selected_group}")
 
         # Historical trend chart for countries with ≥ 3 PISA waves
         wave_counts = pisa_full.groupby("geo")["year"].nunique()
@@ -961,7 +969,7 @@ with tab_pisa:
             )
             _apply_highlight(trend_fig)
             trend_fig.update_layout(height=440, legend_title_text=t("country"))
-            show_chart(trend_fig, width="stretch")
+            show_chart(trend_fig, width="stretch", key=f"chart_pisa_trend_{selected_group}")
             st.markdown(
                 f"<span class='footnote'>{t('panel_pisa_trend_note', n=len(trend_geos))}</span>",
                 unsafe_allow_html=True,
@@ -1084,7 +1092,7 @@ with tab_gov:
 
         scatter.add_vline(x=0, line_color=T["zero_line"], line_width=0.5, opacity=0.4)
         scatter.update_layout(height=580, coloraxis_showscale=False)
-        show_chart(scatter, width="stretch")
+        show_chart(scatter, width="stretch", key=f"chart_gov_{selected_group}_{x_col}")
 
         gov_csv = sub[[
             "geo", "name", "pisa_score", "gov_eff", "control_corruption", "wgi_year",
