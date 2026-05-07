@@ -4,9 +4,6 @@ Interactive Streamlit dashboard that crosses GDP per capita (PPP, constant 2021 
 
 The dashboard ships in Portuguese and English, with light and dark theme and URL-persisted state.
 
-> Para um resumo do projeto em português, veja [`RESUMO.md`](RESUMO.md).
-> Para o resumo curto destinado ao Congresso, veja [`RESUMO_CONGRESSO.md`](RESUMO_CONGRESSO.md).
-
 ## What the project does
 
 1. Combines public, free official datasets (World Bank, UNDP, OECD) into a longitudinal cross-country panel covering 1990 to 2024.
