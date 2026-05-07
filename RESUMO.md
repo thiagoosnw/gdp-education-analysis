@@ -41,7 +41,7 @@ identificação causal estrita) e da maior interpretabilidade dos coeficientes.
 Como complemento metodológico, comparei a especificação log-linear com
 alternativas não-lineares — regressão **polinomial de grau 2 com regularização
 Ridge** e uma **rede neural MLP** com uma camada oculta de quatro neurônios
-(tanh, α = 1) — sob a sugestão da orientadora. A avaliação foi feita por R² em
+(tanh, α = 1). A avaliação foi feita por R² em
 **5-fold cross-validation**, reportando portanto desempenho fora da amostra. O
 OLS log-linear obtém CV R² ≈ 0,52, a regressão polinomial Ridge alcança ≈ 0,65
 e o MLP alcança ≈ 0,62. A diferença, embora consistente, ainda está dentro do

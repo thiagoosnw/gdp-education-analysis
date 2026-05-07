@@ -79,7 +79,7 @@ Estimated by **OLS** with HC1-robust standard errors.
 
 ### Why governance is in the model
 
-Following supervisor guidance and Acemoglu, Johnson & Robinson (Nobel Memorial Prize 2024 — *Why Nations Fail*), the **institutional environment** is a first-order determinant of long-run economic outcomes. Government Effectiveness proxies the public sector's capacity to translate budgets into services. Including it improves the model fit and reduces omitted-variable bias on the spending and schooling coefficients.
+Following Acemoglu, Johnson & Robinson (Nobel Memorial Prize 2024 — *Why Nations Fail*), the **institutional environment** is a first-order determinant of long-run economic outcomes. Government Effectiveness proxies the public sector's capacity to translate budgets into services. Including it improves the model fit and reduces omitted-variable bias on the spending and schooling coefficients.
 
 ### Specification search
 
