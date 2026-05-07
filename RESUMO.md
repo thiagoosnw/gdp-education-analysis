@@ -1,66 +1,75 @@
 # Resumo do projeto
 
-**Riqueza, Educação e PISA — um Índice de Eficiência Educacional**
+Riqueza, Educação e PISA: visualização interativa para democratização de
+dados sobre educação e desenvolvimento econômico.
 
-Este projeto investiga, em corte transversal de 57 países com dados completos
-para 2022, **quanto do desempenho escolar é explicado pelos fundamentos
-econômicos e institucionais de cada país** e quanto fica por conta de fatores
-não diretamente observáveis. A medida-síntese é o **Índice de Eficiência
-Educacional**, definido como o resíduo padronizado de uma função de produção
-educacional do tipo Hanushek aumentada por um termo de governança.
+A pesquisa empírica em educação comparada esbarra em uma assimetria
+conhecida. A literatura mais consolidada sobre os determinantes da
+aprendizagem usa dados microeconômicos e regionalizados (Hanushek, 1986;
+Hanushek, 2020; Dee, 2005), ao passo que comparações entre países, embora
+frequentes em jornalismo de dados, raramente sobrevivem ao escrutínio
+metodológico. Em vez de tentar estimar relações causais a partir de um
+corte transversal de poucas dezenas de países, esforço que reconhecidamente
+carece de poder estatístico e de instrumentos críveis, este projeto adota um
+objetivo distinto e mais modesto. A meta é tornar acessíveis, por meio de
+visualização interativa, os indicadores macro de educação, riqueza e
+governança que estão disponíveis em fontes públicas mas dispersos em
+planilhas pouco navegáveis para o público não especialista.
 
-A especificação preferida (M3) é log-linear em quatro insumos e estimada por
-mínimos quadrados ordinários com erros-padrão robustos HC1:
+A motivação metodológica vem de duas literaturas. A primeira é a pesquisa em
+visualização relacional da comunidade de bancos de dados, que documenta
+sistematicamente como gráficos bem desenhados reduzem o custo cognitivo de
+explorar bases multivariadas e ampliam o público capaz de extrair insight a
+partir delas (Tang, Wu e Li, 2019). A segunda é a literatura brasileira
+sobre visualização de dados como prática de comunicação científica (Silva,
+2019), que enfatiza a articulação entre infografia, narrativa e
+democratização do conhecimento.
 
-ln(PISA) = θ·ln(Gasto) + β·ln(PIB) + γ·ln(MYS) + η·GovEff + δ + ε
+A entrega é um painel Streamlit bilíngue (português e inglês) que combina,
+em três abas, três cruzamentos elementares de variáveis sobre mais de 200
+países:
 
-onde **Gasto** é o gasto governamental anual por aluno do ensino secundário
-(USD PPC, fonte World Bank/UNESCO UIS), **PIB** é o PIB per capita PPC (World
-Bank), **MYS** são os anos médios de escolaridade do PNUD HDR e **GovEff** é o
-índice de Eficácia Governamental dos Worldwide Governance Indicators (Banco
-Mundial). A variável dependente é a média 2022 das três áreas do PISA. A
-inclusão da governança segue o argumento institucionalista de Acemoglu, Johnson
-e Robinson (Prêmio Nobel de 2024): a capacidade do setor público de converter
-orçamento em serviço educacional é uma covariável de primeira ordem para o
-desempenho de longo prazo. M3 atinge R² ajustado de 0,715 sobre 57 países; o
-gasto total em educação como percentual do PIB não foi estatisticamente
-significativo em nenhuma especificação testada — em linha com o resultado
-central de Hanushek (2020) de que o tamanho do esforço fiscal não prediz a
-aprendizagem uma vez controlados outros insumos.
+1. PIB per capita versus anos médios de escolaridade, com animação temporal
+   de 1990 a 2024 e bolhas dimensionadas pela população, no estilo
+   Gapminder. O eixo do PIB usa valores constantes de 2021 em paridade de
+   poder de compra (World Bank `NY.GDP.PCAP.PP.KD`), evitando distorções de
+   inflação ao comparar décadas.
+2. PIB per capita versus pontuação no PISA, com recorte transversal de 2022
+   e trajetórias longitudinais para os países com pelo menos três
+   aplicações do PISA. A escolha pelo recorte estático de 2022 é
+   justificada pelo fato de 38 dos 84 países só terem ingressado no PISA
+   naquela onda, o que tornaria uma animação contínua enganosa.
+3. Pontuação do PISA versus dois indicadores de governança do Worldwide
+   Governance Indicators do Banco Mundial, a saber, Eficácia Governamental
+   e Controle de Corrupção. O Controle de Corrupção do WGI é amplamente
+   utilizado como alternativa pública e gratuita ao Corruption Perceptions
+   Index da Transparency International, com correlação histórica elevada
+   nas séries comparadas pela própria metodologia do WGI.
 
-A robustez foi verificada por mínimos quadrados em dois estágios (2SLS),
-instrumentando o gasto corrente pelo gasto defasado (2005–2014). A estatística
-F do primeiro estágio é 128, bem acima do limiar convencional de 10. O ponto
-do coeficiente IV sobre ln(Gasto) (0,041) é moderadamente superior ao do OLS
-(0,027), consistente em sinal com o viés para baixo previsto em Dee (2005);
-nenhum dos dois é significativo individualmente (p = 0,28 e 0,46), de modo que
-a comparação é informativa quanto à direção, não quanto à magnitude. A escolha
-pelo OLS no painel final segue da motivação de previsão (e não de
-identificação causal estrita) e da maior interpretabilidade dos coeficientes.
+Todas as fontes são oficiais e gratuitas: World Bank Open Data (PIB,
+população, governança), UNDP Human Development Report (anos médios de
+escolaridade) e OECD PISA (pontuações). Cada aba inclui filtro por grupo de
+países (G7, G20, União Europeia, BRICS+, América Latina, Tigres Asiáticos,
+Lusófonos, entre outros), destaque opcional de países, ajuste linear (OLS)
+por referência visual quando cabível, e botão de download do recorte
+filtrado em CSV. Idioma, tema e grupo selecionado são persistidos na URL,
+de modo que visualizações específicas podem ser compartilhadas como link.
 
-Como complemento metodológico, comparei a especificação log-linear com
-alternativas não-lineares — regressão **polinomial de grau 2 com regularização
-Ridge** e uma **rede neural MLP** com uma camada oculta de quatro neurônios
-(tanh, α = 1). A avaliação foi feita por R² em
-**5-fold cross-validation**, reportando portanto desempenho fora da amostra. O
-OLS log-linear obtém CV R² ≈ 0,52, a regressão polinomial Ridge alcança ≈ 0,65
-e o MLP alcança ≈ 0,62. A diferença, embora consistente, ainda está dentro do
-desvio-padrão de validação (≈ 0,2) que é o esperado para N = 57. Existe sinal
-não-linear residual, mas não justifica abandonar a especificação interpretável
-para a construção do índice publicado.
+A contribuição principal não está, portanto, em uma nova estimação
+econométrica, mas em infraestrutura de visualização. Trata-se de um
+pipeline em Python que ingere as APIs oficiais, normaliza ISO3, junta os
+indicadores em um painel longitudinal limpo, e os apresenta em poucos
+cliques a um leitor sem domínio técnico de bases de dados. O código é
+aberto, totalmente reproduzível em ambiente local com um único comando
+(`install.cmd` no Windows, `pip install -r requirements.txt` em Linux e
+macOS), e usa apenas bibliotecas livres (Streamlit, Plotly, pandas).
 
-A entrega é um **dashboard Streamlit** com cinco abas: (i) painel histórico
-animado de PIB per capita versus anos médios de escolaridade, com filtro por
-grupo de países; (ii) ranking de eficiência com intervalos de confiança por
-bootstrap; (iii) correlações bivariadas entre o PISA e cada motor candidato;
-(iv) simulador "what-if" baseado nos coeficientes do M3, com botão de
-restauração ao baseline do país escolhido; (v) metodologia completa, incluindo
-a busca de especificação, o teste de robustez 2SLS, os diagnósticos do modelo
-e a comparação com os métodos não-lineares. O código está disponível em
-`app.py`; a estimação reprodutível encontra-se em `efficiency_index.ipynb`.
-
-**Limitações.** Corte transversal de 57 países dá poder estatístico modesto;
-PISA 2022 captura uma única coorte e três disciplinas; os dados de gasto são
-de 2015–2018, não de 2022; a Eficácia Governamental é um composto baseado em
-percepção. A identificação causal estrita exigiria painel intra-país com
-variação suficiente, deixada para pesquisas posteriores.
+Limitações. O dashboard apresenta correlações simples; nenhum esforço de
+identificação causal é feito. A metodologia robusta de comparação entre
+países demandaria desenhos quase experimentais ou painel intra-país com
+variação suficiente, deixados para trabalhos posteriores. As perguntas
+substantivas sobre eficiência educacional, retorno do gasto público e papel
+das instituições, discutidas pela literatura clássica de Hanushek e pela
+linha institucionalista de Acemoglu, Johnson e Robinson, continuam abertas.
+A intenção aqui é mais elementar: abrir uma porta de entrada visual para
+quem queira começar a investigá-las.
