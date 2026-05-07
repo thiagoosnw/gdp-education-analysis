@@ -17,8 +17,6 @@ The dashboard ships in Portuguese and English, with light and dark theme and URL
 ```
 .
 ├── README.md                                   # this file
-├── RESUMO.md                                   # PT abstract
-├── RESUMO_CONGRESSO.md                         # short PT abstract for the conference
 ├── app.py                                      # Streamlit dashboard
 ├── requirements.txt                            # Python dependencies
 ├── install.cmd                                 # Windows installer (creates .venv, installs deps)
