@@ -8,6 +8,7 @@ Outputs:
     data/API_NY.GDP.PCAP.PP.KD.csv   — GDP per capita, PPP (constant 2021 intl $)
     data/_wb_wgi_ge.json              — WGI Government Effectiveness (estimate)
     data/_wb_wgi_cc.json              — WGI Control of Corruption (estimate)
+    data/_wb_gini.json                — World Bank Gini index (SI.POV.GINI)
 
 The GDP CSV mirrors the layout of the World Bank bulk download (4 skip rows,
 "Country Name", "Country Code" and one column per year) so the dashboard can
@@ -95,10 +96,23 @@ def build_wgi(ind: str, name: str) -> Path:
     return out
 
 
+def build_gini() -> Path:
+    """World Bank Gini index (SI.POV.GINI). Reported irregularly per country,
+    so we pull a wide date window and keep all non-null observations; the app
+    selects the latest available value per country."""
+    rows = _fetch("SI.POV.GINI", date="2010:2024", per_page=20000)
+    out = DATA_DIR / "_wb_gini.json"
+    payload = [{"page": 1, "pages": 1, "per_page": 20000, "total": len(rows)}, rows]
+    out.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+    print(f"Wrote {out.name}: {len(rows)} obs")
+    return out
+
+
 def main() -> None:
     build_constant_gdp()
     build_wgi("GOV_WGI_GE.EST", "ge")
     build_wgi("GOV_WGI_CC.EST", "cc")
+    build_gini()
 
 
 if __name__ == "__main__":
