@@ -97,10 +97,11 @@ def build_wgi(ind: str, name: str) -> Path:
 
 
 def build_gini() -> Path:
-    """World Bank Gini index (SI.POV.GINI). Reported irregularly per country,
-    so we pull a wide date window and keep all non-null observations; the app
-    selects the latest available value per country."""
-    rows = _fetch("SI.POV.GINI", date="2010:2024", per_page=20000)
+    """World Bank Gini index (SI.POV.GINI). Survey-based, reported irregularly
+    per country; some only have a household survey every 5–10 years. We pull a
+    wide date window and keep all non-null observations; the app selects the
+    latest available value per country (with the survey year shown next to it)."""
+    rows = _fetch("SI.POV.GINI", date="2005:2024", per_page=20000)
     out = DATA_DIR / "_wb_gini.json"
     payload = [{"page": 1, "pages": 1, "per_page": 20000, "total": len(rows)}, rows]
     out.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")

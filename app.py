@@ -25,6 +25,7 @@ GROUPS_BASE = {
     "East & Southeast Asia": ["CHN", "JPN", "IND", "KOR", "IDN", "THA", "MYS", "VNM", "PHL", "SGP", "BGD", "PAK", "HKG", "TWN"],
     "Lusophone": ["BRA", "PRT", "AGO", "MOZ", "CPV", "GNB", "STP", "TLS"],
     "Asian Tigers": ["KOR", "SGP", "HKG", "TWN", "MYS", "THA", "VNM", "IDN"],
+    "OPEC": ["DZA", "COG", "GNQ", "GAB", "IRN", "IRQ", "KWT", "LBY", "NGA", "SAU", "ARE", "VEN"],
 }
 
 GROUP_LABELS_PT = {
@@ -37,6 +38,7 @@ GROUP_LABELS_PT = {
     "East & Southeast Asia": "Leste e Sudeste Asiático",
     "Lusophone": "Lusófonos",
     "Asian Tigers": "Tigres Asiáticos",
+    "OPEC": "OPEP",
 }
 
 
@@ -78,16 +80,18 @@ I18N = {
             "- Eficácia governamental (WGI). World Bank. "
             "https://www.worldbank.org/en/publication/worldwide-governance-indicators\n"
             "- Controle de corrupção (WGI). World Bank. "
-            "https://www.worldbank.org/en/publication/worldwide-governance-indicators"
+            "https://www.worldbank.org/en/publication/worldwide-governance-indicators\n"
+            "- Coeficiente de Gini (renda). World Bank `SI.POV.GINI`. "
+            "https://data.worldbank.org/indicator/SI.POV.GINI"
         ),
         "author": "Autor",
         "tab_mys": "PIB × Escolaridade",
         "tab_pisa": "PIB × PISA",
-        "tab_gov": "PISA × Governança",
+        "tab_gov": "PISA × Contexto",
         "tab_about": "Sobre",
         "subtitle_mys": "PIB per capita versus anos médios de escolaridade. {group}",
         "subtitle_pisa": "PIB per capita versus pontuação PISA. {group}",
-        "subtitle_gov": "Pontuação PISA versus indicadores de governança (WGI). {group}",
+        "subtitle_gov": "Pontuação PISA versus indicadores de contexto institucional e de desigualdade. {group}",
         "panel_pisa_note": (
             "Apresentado como recorte transversal da onda mais recente do PISA (2022, 81 países). "
             "Como 38 dos 84 países só ingressaram no PISA em 2022, uma animação contínua "
@@ -114,24 +118,28 @@ I18N = {
         "footnote_bubble": "As bolhas têm tamanho proporcional à população total. Eixo X em escala logarítmica.",
         "download_csv": "Baixar dados (CSV)",
         "gov_description": (
-            "Cada ponto é um país. O eixo X mostra um indicador de governança do Banco Mundial. "
-            "O eixo Y mostra a pontuação média no PISA 2022. Os indicadores Eficácia "
-            "Governamental (Government Effectiveness) e Controle de Corrupção (Control of "
-            "Corruption) vêm do Worldwide Governance Indicators (WGI) e variam de "
-            "aproximadamente −2,5 a +2,5. Valores mais altos indicam melhor percepção de "
-            "qualidade institucional. O Controle de Corrupção do WGI é frequentemente "
-            "utilizado como alternativa pública e gratuita ao Corruption Perceptions Index "
-            "(CPI) da Transparency International, com correlação histórica elevada nas séries "
-            "comparadas pela própria metodologia do WGI."
+            "Cada ponto é um país. O eixo X mostra um indicador de contexto. Você pode "
+            "escolher entre dois indicadores de qualidade institucional do Banco Mundial — "
+            "Eficácia Governamental e Controle de Corrupção — ou o coeficiente de Gini de "
+            "renda, que mede desigualdade. Os dois primeiros vão de aproximadamente −2,5 a "
+            "+2,5: valores mais altos indicam instituições de melhor qualidade. O Gini vai "
+            "de 0 a 100: valores mais altos indicam mais desigualdade. O eixo Y mostra a "
+            "pontuação média no PISA 2022. O Controle de Corrupção do Banco Mundial é "
+            "frequentemente usado como alternativa pública e gratuita ao índice de "
+            "percepção de corrupção da Transparency International."
         ),
-        "gov_indicator": "Indicador de governança",
+        "gov_indicator": "Indicador de contexto",
         "gov_ge": "Eficácia Governamental (WGI)",
         "gov_cc": "Controle de Corrupção (WGI)",
-        "gov_year": "Ano de referência (WGI)",
-        "gov_correlation": "Correlação de Pearson",
+        "gov_gini": "Coeficiente de Gini (renda)",
+        "gov_year": "Ano de referência",
+        "gov_correlation": "Correlação (grupo)",
+        "gov_correlation_global": "Correlação (global)",
+        "gov_correlation_global_help": "Calculada sobre todos os países com PISA 2022 e o indicador escolhido ({n} países). Serve como referência para comparar com o valor do grupo filtrado.",
         "gov_axis_ge": "Eficácia Governamental (≈ −2,5 a +2,5)",
         "gov_axis_cc": "Controle de Corrupção (≈ −2,5 a +2,5)",
-        "gov_n_countries": "{n} países (PISA 2022 + WGI)",
+        "gov_axis_gini": "Coeficiente de Gini (0–100, maior = mais desigual)",
+        "gov_n_countries": "{n} países (PISA 2022 + indicador)",
         "ols_fit": "Ajuste OLS",
         "about_md": (
             "Este painel é um exercício de democratização de dados sobre educação e "
@@ -151,8 +159,10 @@ I18N = {
             "com bolhas proporcionais à população.\n"
             "2. PIB versus pontuação no PISA. Recorte transversal de 2022 e trajetórias dos "
             "países com cobertura longitudinal (três ou mais aplicações).\n"
-            "3. PISA versus governança. Relação entre desempenho educacional e qualidade "
-            "institucional (Eficácia Governamental e Controle de Corrupção do WGI).\n\n"
+            "3. PISA versus contexto. Relação entre desempenho educacional e dois "
+            "tipos de variáveis estruturais: qualidade institucional (Eficácia Governamental "
+            "e Controle de Corrupção do WGI) e desigualdade de renda (coeficiente de Gini "
+            "do Banco Mundial).\n\n"
             "Todos os dados podem ser baixados em CSV diretamente no painel."
         ),
         "about_refs": "Referências",
@@ -201,16 +211,18 @@ I18N = {
             "- Government Effectiveness (WGI). World Bank. "
             "https://www.worldbank.org/en/publication/worldwide-governance-indicators\n"
             "- Control of Corruption (WGI). World Bank. "
-            "https://www.worldbank.org/en/publication/worldwide-governance-indicators"
+            "https://www.worldbank.org/en/publication/worldwide-governance-indicators\n"
+            "- Gini index (income). World Bank `SI.POV.GINI`. "
+            "https://data.worldbank.org/indicator/SI.POV.GINI"
         ),
         "author": "Author",
         "tab_mys": "GDP × Schooling",
         "tab_pisa": "GDP × PISA",
-        "tab_gov": "PISA × Governance",
+        "tab_gov": "PISA × Context",
         "tab_about": "About",
         "subtitle_mys": "GDP per capita versus mean years of schooling. {group}",
         "subtitle_pisa": "GDP per capita versus PISA score. {group}",
-        "subtitle_gov": "PISA score versus governance indicators (WGI). {group}",
+        "subtitle_gov": "PISA score versus institutional quality and income-inequality indicators. {group}",
         "panel_pisa_note": (
             "Shown as the cross-section of the latest PISA wave (2022, 81 countries). "
             "Since 38 of the 84 countries joined PISA only in 2022, a continuous animation "
@@ -237,22 +249,27 @@ I18N = {
         "footnote_bubble": "Bubble size scales with total population. X-axis is logarithmic.",
         "download_csv": "Download data (CSV)",
         "gov_description": (
-            "Each point is a country. The X-axis shows a World Bank governance indicator. "
-            "The Y-axis shows the average PISA 2022 score. Government Effectiveness and "
-            "Control of Corruption come from the Worldwide Governance Indicators (WGI) and "
-            "range from approximately −2.5 to +2.5. Higher values mean better-perceived "
-            "institutional quality. WGI Control of Corruption is widely used as a public, free "
-            "alternative to Transparency International's Corruption Perceptions Index (CPI), "
-            "with which it correlates strongly in the series compared by the WGI methodology."
+            "Each point is a country. The X-axis shows a context indicator. You can pick "
+            "between two World Bank institutional-quality measures — Government "
+            "Effectiveness and Control of Corruption — or the income Gini index, which "
+            "measures inequality. The first two range from about −2.5 to +2.5: higher "
+            "values mean better-perceived institutional quality. The Gini ranges from 0 to "
+            "100: higher values mean greater inequality. The Y-axis shows the average PISA "
+            "2022 score. World Bank Control of Corruption is widely used as a free public "
+            "alternative to Transparency International's corruption perceptions index."
         ),
-        "gov_indicator": "Governance indicator",
+        "gov_indicator": "Context indicator",
         "gov_ge": "Government Effectiveness (WGI)",
         "gov_cc": "Control of Corruption (WGI)",
-        "gov_year": "Reference year (WGI)",
-        "gov_correlation": "Pearson correlation",
+        "gov_gini": "Gini index (income)",
+        "gov_year": "Reference year",
+        "gov_correlation": "Correlation (group)",
+        "gov_correlation_global": "Correlation (full sample)",
+        "gov_correlation_global_help": "Computed over every country with PISA 2022 and the selected indicator ({n} countries). Use it as a reference against the value for the filtered group.",
         "gov_axis_ge": "Government Effectiveness (≈ −2.5 to +2.5)",
         "gov_axis_cc": "Control of Corruption (≈ −2.5 to +2.5)",
-        "gov_n_countries": "{n} countries (PISA 2022 + WGI)",
+        "gov_axis_gini": "Gini index (0–100, higher = more unequal)",
+        "gov_n_countries": "{n} countries (PISA 2022 + indicator)",
         "ols_fit": "OLS fit",
         "about_md": (
             "This dashboard is an exercise in democratising data on education and economic "
@@ -272,8 +289,10 @@ I18N = {
             "with bubbles scaled to total population.\n"
             "2. GDP versus PISA score. 2022 cross-section and trajectories of countries with "
             "longitudinal coverage (three or more assessments).\n"
-            "3. PISA versus governance. Relationship between educational performance and "
-            "institutional quality (WGI Government Effectiveness and Control of Corruption).\n\n"
+            "3. PISA versus context. Relationship between educational performance and two "
+            "kinds of structural variables: institutional quality (WGI Government "
+            "Effectiveness and Control of Corruption) and income inequality (World Bank "
+            "Gini index).\n\n"
             "All data can be downloaded as CSV directly from the dashboard."
         ),
         "about_refs": "References",
@@ -444,6 +463,20 @@ def load_governance(_mtime_key):
     latest = latest.sort_values("year").groupby("geo", as_index=False).last()
     latest = latest.rename(columns={"year": "wgi_year"})
     return panel, latest
+
+
+@st.cache_data(show_spinner=False)
+def load_gini(_mtime_key):
+    """World Bank Gini index. Reported irregularly per country, so we keep the
+    latest non-null observation per country within the fetched window."""
+    path = f"{DATA_DIR}/_wb_gini.json"
+    if not os.path.exists(path):
+        return pd.DataFrame(columns=["geo", "gini", "gini_year"])
+    raw = _load_wgi_one(path, "gini")
+    if raw.empty:
+        return pd.DataFrame(columns=["geo", "gini", "gini_year"])
+    latest = raw.dropna(subset=["gini"]).sort_values("year").groupby("geo", as_index=False).last()
+    return latest.rename(columns={"year": "gini_year"})
 
 
 # ============================================================
@@ -654,6 +687,7 @@ try:
     panel = load_panel(_mtime(*panel_files))
     wgi_files = (f"{DATA_DIR}/_wb_wgi_ge.json", f"{DATA_DIR}/_wb_wgi_cc.json")
     wgi_panel, wgi_latest = load_governance(_mtime(*wgi_files))
+    gini_latest = load_gini(_mtime(f"{DATA_DIR}/_wb_gini.json"))
 except Exception as exc:
     st.error(f"Data loading failed: {exc}")
     st.stop()
@@ -845,20 +879,19 @@ with tab_mys:
             template=TEMPLATE,
         )
         _style_bubbles(fig, hover_template)
-        for frame in fig.frames or []:
-            for trace in frame.data:
-                if hasattr(trace, "marker") and trace.marker is not None:
-                    trace.marker.line.color = bubble_line
-                    trace.marker.line.width = 0.7
-                trace.hovertemplate = hover_template
-                if highlight_set:
+        # Per-frame styling is only needed for highlight (which changes opacity
+        # mid-animation). Base trace styling carries through otherwise — skipping
+        # this loop is a large win for groups with hundreds of countries.
+        if highlight_set:
+            for frame in fig.frames or []:
+                for trace in frame.data:
                     trace.opacity = 1.0 if trace.name in highlight_set else 0.18
-                else:
-                    trace.opacity = 0.85
 
+        n_countries = view["geo"].nunique()
         fig.update_layout(
             height=620,
             legend_title_text=t("country"),
+            showlegend=n_countries <= 30,
             transition=dict(duration=400, easing="cubic-in-out"),
         )
         if fig.layout.updatemenus:
@@ -951,7 +984,11 @@ with tab_pisa:
             template=TEMPLATE,
         )
         _style_bubbles(fig, hover_template)
-        fig.update_layout(height=620, legend_title_text=t("country"))
+        fig.update_layout(
+            height=620,
+            legend_title_text=t("country"),
+            showlegend=view["geo"].nunique() <= 30,
+        )
         show_chart(fig, width="stretch", key=f"chart_pisa_{selected_group}")
 
         # Historical trend chart for countries with ≥ 3 PISA waves
@@ -968,7 +1005,11 @@ with tab_pisa:
                 template=TEMPLATE,
             )
             _apply_highlight(trend_fig)
-            trend_fig.update_layout(height=440, legend_title_text=t("country"))
+            trend_fig.update_layout(
+                height=440,
+                legend_title_text=t("country"),
+                showlegend=trend_df["geo"].nunique() <= 30,
+            )
             show_chart(trend_fig, width="stretch", key=f"chart_pisa_trend_{selected_group}")
             st.markdown(
                 f"<span class='footnote'>{t('panel_pisa_trend_note', n=len(trend_geos))}</span>",
@@ -1000,38 +1041,65 @@ with tab_gov:
     pisa_2022 = panel[panel["year"] == 2022][["geo", "name", "pisa_score", "population"]].dropna(
         subset=["pisa_score"]
     )
-    gov_df = pisa_2022.merge(
-        wgi_latest[["geo", "wgi_year", "gov_eff", "control_corruption"]],
-        on="geo",
-        how="inner",
+    gov_df_full = (
+        pisa_2022
+        .merge(wgi_latest[["geo", "wgi_year", "gov_eff", "control_corruption"]], on="geo", how="left")
+        .merge(gini_latest[["geo", "gini_year", "gini"]], on="geo", how="left")
     )
-    gov_df = gov_df[gov_df["geo"].isin(country_list)].copy()
+    gov_df = gov_df_full[gov_df_full["geo"].isin(country_list)].copy()
 
-    indicator_label_to_col = {
-        t("gov_ge"): ("gov_eff", t("gov_axis_ge")),
-        t("gov_cc"): ("control_corruption", t("gov_axis_cc")),
+    indicator_specs = {
+        t("gov_ge"): {
+            "col": "gov_eff", "axis": t("gov_axis_ge"), "year_col": "wgi_year",
+            "hover_fmt": ":+.2f", "midpoint": 0, "show_zero_line": True,
+            "color_reverse": False,
+        },
+        t("gov_cc"): {
+            "col": "control_corruption", "axis": t("gov_axis_cc"), "year_col": "wgi_year",
+            "hover_fmt": ":+.2f", "midpoint": 0, "show_zero_line": True,
+            "color_reverse": False,
+        },
+        t("gov_gini"): {
+            "col": "gini", "axis": t("gov_axis_gini"), "year_col": "gini_year",
+            "hover_fmt": ":.1f", "midpoint": None, "show_zero_line": False,
+            "color_reverse": True,
+        },
     }
     indicator_choice = st.radio(
         t("gov_indicator"),
-        options=list(indicator_label_to_col.keys()),
+        options=list(indicator_specs.keys()),
         horizontal=True,
     )
-    x_col, x_label = indicator_label_to_col[indicator_choice]
+    spec = indicator_specs[indicator_choice]
+    x_col = spec["col"]
+    x_label = spec["axis"]
+    year_col = spec["year_col"]
 
-    sub = gov_df.dropna(subset=[x_col]).copy()
+    sub = gov_df.dropna(subset=[x_col, year_col]).copy()
     if sub.empty:
         st.warning(t("no_data_warning", metric=indicator_choice, group=selected_group))
     else:
         r = sub[x_col].corr(sub["pisa_score"])
+        sub_global = gov_df_full.dropna(subset=[x_col, year_col])
+        r_global = (
+            sub_global[x_col].corr(sub_global["pisa_score"])
+            if len(sub_global) >= 3 else float("nan")
+        )
+        midpoint = spec["midpoint"] if spec["midpoint"] is not None else float(sub[x_col].median())
 
-        c1, c2, c3 = st.columns(3)
+        c1, c2, c3, c4 = st.columns(4)
         c1.metric(
             t("gov_n_countries", n=len(sub)),
-            f"{int(sub['wgi_year'].max())}",
+            f"{int(sub[year_col].max())}",
             help=t("gov_year"),
         )
         c2.metric(t("gov_correlation"), f"r = {r:+.2f}")
         c3.metric(
+            t("gov_correlation_global"),
+            f"r = {r_global:+.2f}" if not pd.isna(r_global) else "—",
+            help=t("gov_correlation_global_help", n=len(sub_global)),
+        )
+        c4.metric(
             t("m_median_y", metric=t("y_pisa"), year=2022),
             f"{sub['pisa_score'].median():.0f}",
         )
@@ -1041,25 +1109,27 @@ with tab_gov:
             if highlight_set else 0.85
         )
 
+        color_scale = DIVERGING[::-1] if spec.get("color_reverse") else DIVERGING
+
         scatter = px.scatter(
             sub,
             x=x_col, y="pisa_score",
             text="geo",
             color=x_col,
-            color_continuous_scale=DIVERGING,
-            color_continuous_midpoint=0,
+            color_continuous_scale=color_scale,
+            color_continuous_midpoint=midpoint,
             hover_data={
                 "name": True,
-                x_col: ":+.2f",
+                x_col: spec["hover_fmt"],
                 "pisa_score": ":.0f",
-                "wgi_year": True,
+                year_col: True,
                 "geo": False,
             },
             labels={
                 x_col: x_label,
                 "pisa_score": t("y_pisa"),
                 "name": t("country"),
-                "wgi_year": t("gov_year"),
+                year_col: t("gov_year"),
             },
             template=TEMPLATE,
         )
@@ -1090,17 +1160,17 @@ with tab_gov:
                 )
             )
 
-        scatter.add_vline(x=0, line_color=T["zero_line"], line_width=0.5, opacity=0.4)
+        if spec["show_zero_line"]:
+            scatter.add_vline(x=0, line_color=T["zero_line"], line_width=0.5, opacity=0.4)
         scatter.update_layout(height=580, coloraxis_showscale=False)
         show_chart(scatter, width="stretch", key=f"chart_gov_{selected_group}_{x_col}")
 
-        gov_csv = sub[[
-            "geo", "name", "pisa_score", "gov_eff", "control_corruption", "wgi_year",
-        ]].to_csv(index=False).encode("utf-8")
+        export_cols = ["geo", "name", "pisa_score", x_col, year_col]
+        gov_csv = sub[export_cols].to_csv(index=False).encode("utf-8")
         st.download_button(
             t("download_csv"),
             data=gov_csv,
-            file_name=f"pisa_governance_{selected_group}.csv",
+            file_name=f"pisa_{x_col}_{selected_group}.csv",
             mime="text/csv",
         )
 

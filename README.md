@@ -1,6 +1,6 @@
 # Wealth, Education and PISA. Interactive Visualisation
 
-Interactive Streamlit dashboard that crosses GDP per capita (PPP, constant 2021 USD), mean years of schooling, PISA scores and World Bank governance indicators for more than 200 countries. The aim is not to estimate causal relationships between wealth, governance and learning, since that would require sub-national data and identification designs stronger than cross-country regressions allow. The aim is to give a non-specialist reader a visual, interactive entry point to those data, in line with the literature on democratic data visualisation (Tang, Wu and Li, 2019; Silva, 2019).
+Interactive Streamlit dashboard that crosses GDP per capita (PPP, constant 2021 USD), mean years of schooling, PISA scores, World Bank governance indicators and the World Bank income Gini index for more than 200 countries. The aim is not to estimate causal relationships between wealth, governance and learning, since that would require sub-national data and identification designs stronger than cross-country regressions allow. The aim is to give a non-specialist reader a visual, interactive entry point to those data, in line with the literature on democratic data visualisation (Tang, Wu and Li, 2019; Silva, 2019).
 
 The dashboard ships in Portuguese and English, with light and dark theme and URL-persisted state.
 
@@ -10,7 +10,7 @@ The dashboard ships in Portuguese and English, with light and dark theme and URL
 2. Presents three elementary crossings as interactive Plotly charts. Each tab provides country-group filters, country highlighting and CSV downloads.
    1. GDP versus mean years of schooling. Animated bubble chart, 1990 to 2024, bubbles scaled to total population, in the Gapminder style.
    2. GDP versus PISA score. 2022 cross-section and historical line chart for countries with longitudinal coverage (three or more PISA waves).
-   3. PISA versus governance. Scatter of PISA 2022 against either Government Effectiveness or Control of Corruption from the World Bank Worldwide Governance Indicators (WGI). WGI Control of Corruption is widely used as a free public alternative to Transparency International's CPI, with which it correlates strongly in the series compared by the WGI methodology.
+   3. PISA versus context. Scatter of PISA 2022 against a selectable context indicator: Government Effectiveness or Control of Corruption from the World Bank Worldwide Governance Indicators (WGI), or the World Bank income Gini index (`SI.POV.GINI`, latest available year per country). WGI Control of Corruption is widely used as a free public alternative to Transparency International's CPI, with which it correlates strongly in the series compared by the WGI methodology.
 
 ## Repository layout
 
@@ -26,6 +26,7 @@ The dashboard ships in Portuguese and English, with light and dark theme and URL
 │   ├── hdr-data.xlsx                           # UNDP HDR, mean years of schooling
 │   ├── _wb_wgi_ge.json                         # WB API. WGI Government Effectiveness
 │   ├── _wb_wgi_cc.json                         # WB API. WGI Control of Corruption
+│   ├── _wb_gini.json                           # WB API. Gini index (SI.POV.GINI)
 │   ├── pisa_master_dataset.csv                 # PISA panel (output of build_pisa_panel.py)
 │   ├── build_pisa_panel.py                     # rebuilds pisa_master_dataset.csv
 │   └── build_external_indicators.py            # refetches GDP and WGI from the WB API
@@ -43,6 +44,7 @@ Every dataset comes from an official statistical authority (World Bank, UNDP or 
 | Mean years of schooling | UNDP HDR | indicator `mys` | https://hdr.undp.org/data-center/documentation-and-downloads |
 | Government Effectiveness (WGI) | World Bank | `GOV_WGI_GE.EST` | https://www.worldbank.org/en/publication/worldwide-governance-indicators |
 | Control of Corruption (WGI) | World Bank | `GOV_WGI_CC.EST` | https://www.worldbank.org/en/publication/worldwide-governance-indicators |
+| Gini index (income, 0–100) | World Bank | `SI.POV.GINI` | https://data.worldbank.org/indicator/SI.POV.GINI |
 | PISA 2000 to 2018 (math, reading, science) | World Bank (ingests OECD PISA) | `LO.PISA.MAT`, `LO.PISA.REA`, `LO.PISA.SCI` | https://data.worldbank.org/indicator/LO.PISA.MAT |
 | PISA 2022 (math, reading, science) | OECD | PISA 2022 Results, Vol. I, Annex B1 | https://doi.org/10.1787/53f23881-en |
 
@@ -54,7 +56,7 @@ The PISA panel-building script ([`data/build_pisa_panel.py`](data/build_pisa_pan
 
 1. GDP versus schooling. Animated bubble chart, 1990 to 2024.
 2. GDP versus PISA. 2022 cross-section with a historical-trajectories sub-chart for countries with three or more PISA waves.
-3. PISA versus governance. Scatter of PISA 2022 against the chosen WGI indicator (Government Effectiveness or Control of Corruption), with Pearson correlation, OLS fit line and country-level table.
+3. PISA versus context. Scatter of PISA 2022 against the chosen context indicator (WGI Government Effectiveness, WGI Control of Corruption, or World Bank Gini index of income), with Pearson correlation, OLS fit line and country-level table.
 4. About. Methodology notes, references, sources.
 
 The sidebar carries language and theme toggles, a country-group filter (G7, G20, EU, BRICS+, South America, Latin America, Asian Tigers, Lusophone, etc.) shared by all tabs, an optional "highlight countries" multiselect, a collapsible data-sources block, and the author block.
@@ -82,7 +84,7 @@ python data/build_external_indicators.py
 python data/build_pisa_panel.py
 ```
 
-`build_external_indicators.py` queries the World Bank API for GDP per capita PPP (constant 2021 USD) and the two WGI series (Government Effectiveness, Control of Corruption) and writes them to `data/`. `build_pisa_panel.py` rebuilds the PISA cross-country master dataset.
+`build_external_indicators.py` queries the World Bank API for GDP per capita PPP (constant 2021 USD), the two WGI series (Government Effectiveness, Control of Corruption) and the Gini index (`SI.POV.GINI`), writing them to `data/`. `build_pisa_panel.py` rebuilds the PISA cross-country master dataset.
 
 ### Run the dashboard
 
