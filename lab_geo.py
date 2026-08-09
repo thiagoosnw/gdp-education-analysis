@@ -406,7 +406,7 @@ with tab1:
         show(fig, key=f"map1_{ind_label}_{group}_{scale}_{use_log}")
 
         st.caption(f"{year_note} {view['geo'].nunique()} países com dado. "
-                   "Países em cinza não têm observação — a ausência é informação, não zero.")
+                   "Países em cinza não têm observação. A ausência é informação, não zero.")
 
         with st.expander("Código do gráfico"):
             st.code(
@@ -518,7 +518,7 @@ with tab3:
     st.markdown(
         "Ajuste linear simples de `PISA ~ log10(PIB per capita)` no recorte transversal do PISA. "
         "O mapa mostra o **resíduo**: pontos acima (azul) ou abaixo (vermelho) do que o modelo "
-        "prevê para aquele nível de renda. É descritivo, não causal — mede desvio em relação "
+        "prevê para aquele nível de renda. É descritivo, não causal. Mede desvio em relação "
         "à média condicional, não eficácia de política educacional."
     )
 
@@ -804,7 +804,7 @@ with tab5:
             st.caption(
                 f"{len(overlap)} de {n5} países aparecem nas duas listas. "
                 "Os que estão só na trilha do PIB são economias ricas que não convertem renda em "
-                "aprendizagem na mesma proporção — e vice-versa."
+                "aprendizagem na mesma proporção, e vice-versa."
             )
 
             with st.expander("Código do gráfico"):
@@ -830,7 +830,7 @@ with tab6:
         "Mapa de cobertura, não de desempenho. Serve de nota metodológica visual: boa parte do "
         "mundo nunca participou do PISA, e comparações longitudinais só são possíveis onde há "
         "várias ondas. O painel principal já limita as trajetórias a países com três ou mais "
-        "aplicações — este mapa mostra por quê."
+        "aplicações, e este mapa mostra por quê."
     )
 
     waves = (panel.dropna(subset=["pisa_score"])

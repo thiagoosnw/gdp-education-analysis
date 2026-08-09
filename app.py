@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
+import streamlit.components.v1 as components
 
 
 # ============================================================
@@ -48,7 +49,7 @@ GROUP_LABELS_PT = {
 
 I18N = {
     "pt": {
-        "page_title": "Riqueza, Educação e PISA — Visualização Interativa",
+        "page_title": "Riqueza, Educação e PISA. Visualização interativa",
         "app_title": "Riqueza, Educação e PISA",
         "app_subtitle": (
             "Painel interativo que cruza PIB per capita (em paridade de poder de compra, "
@@ -121,8 +122,8 @@ I18N = {
         "download_csv": "Baixar dados (CSV)",
         "gov_description": (
             "Cada ponto é um país. O eixo X mostra um indicador de contexto. Você pode "
-            "escolher entre dois indicadores de qualidade institucional do Banco Mundial — "
-            "Eficácia Governamental e Controle de Corrupção — ou o coeficiente de Gini de "
+            "escolher entre dois indicadores de qualidade institucional do Banco Mundial, "
+            "Eficácia Governamental e Controle de Corrupção, ou o coeficiente de Gini de "
             "renda, que mede desigualdade. Os dois primeiros vão de aproximadamente −2,5 a "
             "+2,5: valores mais altos indicam instituições de melhor qualidade. O Gini vai "
             "de 0 a 100: valores mais altos indicam mais desigualdade. O eixo Y mostra a "
@@ -203,7 +204,7 @@ I18N = {
             "Visualization*. SIGMOD '19, ACM. https://doi.org/10.1145/3299869.3314029\n"
             "- Silva, F. C. C. (2019). Visualização de dados: passado, presente e futuro. "
             "*Liinc em Revista*, 15(2), 205–223. https://doi.org/10.18617/liinc.v15i2.4812\n"
-            "- Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators — 2024 "
+            "- Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators, 2024 "
             "Methodology Update*. World Bank.\n"
             "- OECD (2023). *PISA 2022 Results (Volume I): The State of Learning and Equity in "
             "Education*. OECD Publishing. https://doi.org/10.1787/53f23881-en\n"
@@ -212,7 +213,7 @@ I18N = {
         ),
     },
     "en": {
-        "page_title": "Wealth, Education & PISA — Interactive Visualisation",
+        "page_title": "Wealth, Education and PISA. Interactive visualisation",
         "app_title": "Wealth, Education and PISA",
         "app_subtitle": (
             "Interactive dashboard that crosses GDP per capita (PPP, constant 2021 USD), "
@@ -284,8 +285,8 @@ I18N = {
         "download_csv": "Download data (CSV)",
         "gov_description": (
             "Each point is a country. The X-axis shows a context indicator. You can pick "
-            "between two World Bank institutional-quality measures — Government "
-            "Effectiveness and Control of Corruption — or the income Gini index, which "
+            "between two World Bank institutional-quality measures, Government "
+            "Effectiveness and Control of Corruption, or the income Gini index, which "
             "measures inequality. The first two range from about −2.5 to +2.5: higher "
             "values mean better-perceived institutional quality. The Gini ranges from 0 to "
             "100: higher values mean greater inequality. The Y-axis shows the average PISA "
@@ -365,7 +366,7 @@ I18N = {
             "Visualization*. SIGMOD '19, ACM. https://doi.org/10.1145/3299869.3314029\n"
             "- Silva, F. C. C. (2019). Visualização de dados: passado, presente e futuro. "
             "*Liinc em Revista*, 15(2), 205–223. https://doi.org/10.18617/liinc.v15i2.4812\n"
-            "- Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators — 2024 "
+            "- Kaufmann, D., & Kraay, A. (2024). *Worldwide Governance Indicators, 2024 "
             "Methodology Update*. World Bank.\n"
             "- OECD (2023). *PISA 2022 Results (Volume I): The State of Learning and Equity in "
             "Education*. OECD Publishing. https://doi.org/10.1787/53f23881-en\n"
@@ -740,6 +741,45 @@ st.markdown(
         border: none !important;
     }}
 
+    /* Streamlit 1.6x builds the selectbox and the multiselect with react-aria
+       instead of baseweb, so the rules above no longer reach the control. Its
+       inner role="group" keeps a hard white background, which in the dark theme
+       leaves white text on white and hides the current selection. */
+    [data-testid="stSelectbox"] [role="group"],
+    [data-testid="stMultiSelect"] [role="group"],
+    .react-aria-ComboBox [role="group"] {{
+        background-color: {T['input_bg']} !important;
+        border-color: {T['border']} !important;
+    }}
+    [data-testid="stSelectbox"] input,
+    [data-testid="stMultiSelect"] input {{
+        background-color: transparent !important;
+        color: {T['text']} !important;
+    }}
+    [data-testid="stSelectbox"] [role="group"] *,
+    [data-testid="stMultiSelect"] [role="group"] > div > div {{
+        color: {T['text']} !important;
+    }}
+
+    [data-trigger="ComboBox"] {{
+        background-color: {T['secondary_bg']} !important;
+        border: 1px solid {T['border']} !important;
+    }}
+    [data-trigger="ComboBox"] [role="listbox"],
+    [data-trigger="ComboBox"] [role="option"] {{
+        background-color: transparent !important;
+    }}
+    /* The option label sits in a child element that carries its own colour, so
+       inheriting from the option alone leaves dark text on the dark popover. */
+    [data-trigger="ComboBox"] * {{
+        color: {T['text']} !important;
+    }}
+    [data-trigger="ComboBox"] [role="option"][data-focused],
+    [data-trigger="ComboBox"] [role="option"][data-selected],
+    [data-trigger="ComboBox"] [role="option"]:hover {{
+        background-color: {T['popover_hover']} !important;
+    }}
+
     [data-baseweb="popover"] {{
         background: {T['secondary_bg']} !important;
         border: 1px solid {T['border']} !important;
@@ -882,7 +922,7 @@ with st.sidebar:
 
     st.markdown(
         f"<div class='footnote' style='margin-top: 0.6rem;'>"
-        f"<b>{t('author')}</b> — Thiago Alcebíades Rodrigues<br>"
+        f"<b>{t('author')}</b><br>Thiago Alcebíades Rodrigues<br>"
         "<a href='mailto:thiago.alcebiades@unifesp.br'>thiago.alcebiades@unifesp.br</a> · "
         "<a href='https://www.linkedin.com/in/thiago-alcebiades-rodrigues-95446621b/'>LinkedIn</a>"
         "</div>",
@@ -1000,9 +1040,9 @@ with tab_mys:
             template=TEMPLATE,
         )
         _style_bubbles(fig, hover_template)
-        # Per-frame styling is only needed for highlight (which changes opacity
-        # mid-animation). Base trace styling carries through otherwise — skipping
-        # this loop is a large win for groups with hundreds of countries.
+        # Per-frame styling is only needed for highlight, which changes opacity
+        # mid-animation. Base trace styling carries through otherwise, so
+        # skipping this loop is a large win for groups with hundreds of countries.
         if highlight_set:
             for frame in fig.frames or []:
                 for trace in frame.data:
@@ -1459,3 +1499,40 @@ with tab_about:
     st.markdown(t("about_md"))
     st.markdown(f"### {t('about_refs')}")
     st.markdown(t("about_refs_md"))
+
+
+# ============================================================
+# Chart re-measure on tab switch
+# ============================================================
+
+# Plotly reads its container width on first paint. Inside st.tabs the hidden
+# panels are zero-width at that moment, so a chart can settle at the wrong size
+# and stay there until something forces a re-measure. Clicking "Reset axes" on
+# the modebar was doing that by hand. Dispatching a resize on the parent window
+# whenever a tab is clicked does it automatically. The delays cover the tab
+# transition, which is not finished when the click fires.
+components.html(
+    """
+    <script>
+    (function () {
+        const parentWindow = window.parent;
+        if (!parentWindow || parentWindow === window) return;
+        const remeasure = () => {
+            [50, 250, 600].forEach(function (delay) {
+                setTimeout(function () {
+                    parentWindow.dispatchEvent(new Event("resize"));
+                }, delay);
+            });
+        };
+        parentWindow.document.addEventListener("click", function (event) {
+            const target = event.target;
+            if (target && target.closest && target.closest('[role="tab"]')) {
+                remeasure();
+            }
+        }, true);
+        remeasure();
+    })();
+    </script>
+    """,
+    height=0,
+)
