@@ -87,10 +87,12 @@ I18N = {
         "author": "Autor",
         "tab_mys": "PIB × Escolaridade",
         "tab_pisa": "PIB × PISA",
+        "tab_map": "Mapa",
         "tab_gov": "PISA × Contexto",
         "tab_about": "Sobre",
         "subtitle_mys": "PIB per capita versus anos médios de escolaridade. {group}",
         "subtitle_pisa": "PIB per capita versus pontuação PISA. {group}",
+        "subtitle_map": "Distribuição geográfica dos indicadores do painel. {group}",
         "subtitle_gov": "Pontuação PISA versus indicadores de contexto institucional e de desigualdade. {group}",
         "panel_pisa_note": (
             "Apresentado como recorte transversal da onda mais recente do PISA (2022, 81 países). "
@@ -128,6 +130,34 @@ I18N = {
             "frequentemente usado como alternativa pública e gratuita ao índice de "
             "percepção de corrupção da Transparency International."
         ),
+        "map_description": (
+            "Os indicadores das abas anteriores distribuídos no globo. A leitura geográfica "
+            "não substitui os cruzamentos, mas revela agrupamentos regionais que um gráfico "
+            "de dispersão embaralha."
+        ),
+        "map_layer": "Camada",
+        "map_l_gdp": "PIB per capita",
+        "map_l_mys": "Anos médios de escolaridade",
+        "map_l_pisa": "Pontuação PISA",
+        "map_projection": "Projeção",
+        "map_globe": "Globo 3D",
+        "map_flat": "Planisfério",
+        "map_rotation": "Girar o globo (longitude)",
+        "map_log": "Escala logarítmica de cor",
+        "map_pisa_wave": "Camada fixada na onda mais recente do PISA ({year}).",
+        "map_footnote": (
+            "Países em cinza não têm observação para a camada e o ano escolhidos. Ausência de "
+            "dado não é zero. O mapa também pinta área, não população. Rússia, Canadá e "
+            "Austrália ocupam muito espaço com poucos habitantes, enquanto países pequenos e "
+            "populosos quase desaparecem. Para leitura ponderada por população, use as bolhas "
+            "das duas primeiras abas."
+        ),
+        "map_no_data": "Sem dados para {metric} em {group}.",
+        "map_code": "Código do gráfico",
+        "map_code_note": (
+            "O painel inteiro é software livre. Este é o trecho que gera o mapa acima, pronto "
+            "para colar em um script com pandas e plotly."
+        ),
         "gov_indicator": "Indicador de contexto",
         "gov_ge": "Eficácia Governamental (WGI)",
         "gov_cc": "Controle de Corrupção (WGI)",
@@ -154,12 +184,14 @@ I18N = {
             "entre países permitem. A intenção é dar ao leitor não especialista uma porta de "
             "entrada visual e interativa para esses dados, no espírito da literatura sobre "
             "visualização democrática (Tang, Wu e Li, 2019; Silva, 2019).\n\n"
-            "Cada aba apresenta um cruzamento elementar:\n\n"
+            "Cada aba apresenta uma leitura elementar dos dados:\n\n"
             "1. PIB versus anos médios de escolaridade. Animação histórica de 1990 a 2024, "
             "com bolhas proporcionais à população.\n"
             "2. PIB versus pontuação no PISA. Recorte transversal de 2022 e trajetórias dos "
             "países com cobertura longitudinal (três ou mais aplicações).\n"
-            "3. PISA versus contexto. Relação entre desempenho educacional e dois "
+            "3. Mapa. Os mesmos indicadores distribuídos geograficamente, em planisfério ou "
+            "globo, com filtro de grupo, destaque de países e download em CSV.\n"
+            "4. PISA versus contexto. Relação entre desempenho educacional e dois "
             "tipos de variáveis estruturais: qualidade institucional (Eficácia Governamental "
             "e Controle de Corrupção do WGI) e desigualdade de renda (coeficiente de Gini "
             "do Banco Mundial).\n\n"
@@ -218,10 +250,12 @@ I18N = {
         "author": "Author",
         "tab_mys": "GDP × Schooling",
         "tab_pisa": "GDP × PISA",
+        "tab_map": "Map",
         "tab_gov": "PISA × Context",
         "tab_about": "About",
         "subtitle_mys": "GDP per capita versus mean years of schooling. {group}",
         "subtitle_pisa": "GDP per capita versus PISA score. {group}",
+        "subtitle_map": "Geographic distribution of the dashboard's indicators. {group}",
         "subtitle_gov": "PISA score versus institutional quality and income-inequality indicators. {group}",
         "panel_pisa_note": (
             "Shown as the cross-section of the latest PISA wave (2022, 81 countries). "
@@ -258,6 +292,34 @@ I18N = {
             "2022 score. World Bank Control of Corruption is widely used as a free public "
             "alternative to Transparency International's corruption perceptions index."
         ),
+        "map_description": (
+            "The indicators from the previous tabs spread over the globe. Reading them "
+            "geographically does not replace the crossings, but it exposes regional clusters "
+            "that a scatter plot scrambles."
+        ),
+        "map_layer": "Layer",
+        "map_l_gdp": "GDP per capita",
+        "map_l_mys": "Mean years of schooling",
+        "map_l_pisa": "PISA score",
+        "map_projection": "Projection",
+        "map_globe": "3D globe",
+        "map_flat": "Flat map",
+        "map_rotation": "Spin the globe (longitude)",
+        "map_log": "Logarithmic colour scale",
+        "map_pisa_wave": "Layer pinned to the latest PISA wave ({year}).",
+        "map_footnote": (
+            "Countries in grey have no observation for the chosen layer and year. Missing "
+            "data is not zero. A map also colours area, not population. Russia, Canada and "
+            "Australia take up much space with few inhabitants, while small populous "
+            "countries nearly vanish. For a population-weighted reading, use the bubbles in "
+            "the first two tabs."
+        ),
+        "map_no_data": "No data available for {metric} within {group}.",
+        "map_code": "Chart source code",
+        "map_code_note": (
+            "The whole dashboard is free software. This is the snippet that produces the map "
+            "above, ready to paste into a script with pandas and plotly."
+        ),
         "gov_indicator": "Context indicator",
         "gov_ge": "Government Effectiveness (WGI)",
         "gov_cc": "Control of Corruption (WGI)",
@@ -284,12 +346,14 @@ I18N = {
             "non-specialist reader a visual, interactive entry point to these data, in line "
             "with the literature on democratic data visualisation (Tang, Wu and Li, 2019; "
             "Silva, 2019).\n\n"
-            "Each tab presents a single elementary crossing:\n\n"
+            "Each tab presents a single elementary reading of the data:\n\n"
             "1. GDP versus mean years of schooling. Historical animation from 1990 to 2024, "
             "with bubbles scaled to total population.\n"
             "2. GDP versus PISA score. 2022 cross-section and trajectories of countries with "
             "longitudinal coverage (three or more assessments).\n"
-            "3. PISA versus context. Relationship between educational performance and two "
+            "3. Map. The same indicators spread geographically, on a flat map or a globe, "
+            "with the group filter, country highlighting and CSV download.\n"
+            "4. PISA versus context. Relationship between educational performance and two "
             "kinds of structural variables: institutional quality (WGI Government "
             "Effectiveness and Control of Corruption) and income inequality (World Bank "
             "Gini index).\n\n"
@@ -325,6 +389,10 @@ THEMES = {
         "border": "rgba(255,255,255,0.06)",
         "plotly": "plotly_dark",
         "diverging": ["#C73E1D", "#F4F1DE", "#2E86AB"],
+        "geo_land": "#2A2F3A",
+        "geo_ocean": "#11151C",
+        "geo_coast": "rgba(255,255,255,0.25)",
+        "geo_country_line": "rgba(255,255,255,0.18)",
         "fit_line": "#A0A0A0",
         "zero_line": "#FAFAFA",
         "table_header_bg": "#1B1E27",
@@ -341,6 +409,10 @@ THEMES = {
         "border": "rgba(0,0,0,0.06)",
         "plotly": "plotly_white",
         "diverging": ["#B2182B", "#E0E0E0", "#2166AC"],
+        "geo_land": "#E9ECF2",
+        "geo_ocean": "#F7F9FC",
+        "geo_coast": "rgba(0,0,0,0.25)",
+        "geo_country_line": "rgba(0,0,0,0.18)",
         "fit_line": "#555555",
         "zero_line": "#262730",
         "table_header_bg": "#E8EAEF",
@@ -531,6 +603,44 @@ def show_chart(fig, **kwargs):
     st.plotly_chart(fig, config=config, **kwargs)
 
 
+def style_geo(fig, *, projection="natural earth", rotation_lon=0, height=620):
+    """Apply the page theme to a geographic figure.
+
+    Choropleths need land, ocean and coastline colours that plotly templates do
+    not set, otherwise the map keeps plotly's own palette and clashes with the
+    surrounding page in both themes.
+    """
+    fig.update_geos(
+        projection_type=projection,
+        projection_rotation=dict(lon=rotation_lon, lat=0, roll=0),
+        showland=True, landcolor=T["geo_land"],
+        showocean=True, oceancolor=T["geo_ocean"], lakecolor=T["geo_ocean"],
+        showcoastlines=True, coastlinecolor=T["geo_coast"], coastlinewidth=0.5,
+        showcountries=True, countrycolor=T["geo_country_line"],
+        showframe=False,
+        bgcolor="rgba(0,0,0,0)",
+    )
+    fig.update_layout(height=height, margin=dict(l=0, r=0, t=10, b=0))
+    return fig
+
+
+def log_tick_values(log_values):
+    """Colour-bar ticks at 1, 2 and 5 times each power of ten in range.
+
+    Whole decades alone leave a narrow range such as the G20, which spans a
+    single decade of GDP per capita, with one labelled tick and an unreadable
+    colour bar. Takes and returns values already in log10 space.
+    """
+    low, high = float(np.min(log_values)), float(np.max(log_values))
+    ticks = []
+    for exponent in range(int(np.floor(low)), int(np.ceil(high)) + 1):
+        for mantissa in (1, 2, 5):
+            candidate = exponent + np.log10(mantissa)
+            if low - 1e-9 <= candidate <= high + 1e-9:
+                ticks.append(candidate)
+    return ticks if len(ticks) >= 2 else [low, high]
+
+
 # ============================================================
 # CSS injection (theme-aware)
 # ============================================================
@@ -587,6 +697,16 @@ st.markdown(
     }}
     .stApp pre {{ background: {T['secondary_bg']} !important; }}
     .stApp pre code {{ background: transparent !important; }}
+
+    /* Bare source URLs are longer than the sidebar is wide and have no spaces
+       to break on, so without this they are simply clipped at the edge. */
+    [data-testid="stSidebar"] a,
+    [data-testid="stSidebar"] code,
+    [data-testid="stSidebar"] li,
+    [data-testid="stSidebar"] p {{
+        overflow-wrap: anywhere;
+        word-break: break-word;
+    }}
 
     [data-testid="stMetric"] {{
         background: {T['secondary_bg']};
@@ -810,9 +930,10 @@ def _apply_highlight(fig):
 # Tabs
 # ============================================================
 
-tab_mys, tab_pisa, tab_gov, tab_about = st.tabs([
+tab_mys, tab_pisa, tab_map, tab_gov, tab_about = st.tabs([
     t("tab_mys"),
     t("tab_pisa"),
+    t("tab_map"),
     t("tab_gov"),
     t("tab_about"),
 ])
@@ -1028,6 +1149,161 @@ with tab_pisa:
             file_name=f"gdp_pisa_{selected_group}.csv",
             mime="text/csv",
         )
+
+
+# ------------------------------------------------------------
+# Tab: Map
+# ------------------------------------------------------------
+
+with tab_map:
+    st.subheader(t("subtitle_map", group=selected_group))
+    st.markdown(t("map_description"))
+
+    # `num` is the d3 format used in the hover and `prefix` the unit shown on the
+    # colour bar. Counts of people carry neither a currency sign nor decimals.
+    LAYERS = {
+        t("map_l_gdp"): {"col": "gdp_per_capita", "log": True, "prefix": "$", "num": ",.0f"},
+        t("map_l_mys"): {"col": "years_schooling", "log": False, "prefix": "", "num": ".1f"},
+        t("map_l_pisa"): {"col": "pisa_score", "log": False, "prefix": "", "num": ".0f"},
+    }
+    layer_choice = st.radio(
+        t("map_layer"), options=list(LAYERS), horizontal=True, key="map_layer_radio"
+    )
+    layer = LAYERS[layer_choice]
+
+    col_proj, col_year = st.columns([1, 2])
+    projection_choice = col_proj.radio(
+        t("map_projection"),
+        options=[t("map_flat"), t("map_globe")],
+        horizontal=True,
+        key="map_projection_radio",
+    )
+    is_globe = projection_choice == t("map_globe")
+
+    # PISA is only measured on wave years, so that layer is pinned to the latest
+    # wave instead of offering a year slider that would mostly land on gaps.
+    if layer["col"] == "pisa_score":
+        map_year = int(panel.dropna(subset=["pisa_score"])["year"].max())
+        col_year.markdown(
+            f"<span class='footnote'>{t('map_pisa_wave', year=map_year)}</span>",
+            unsafe_allow_html=True,
+        )
+    else:
+        years_available = sorted(
+            panel.dropna(subset=[layer["col"]])["year"].unique().astype(int)
+        )
+        map_year = col_year.select_slider(
+            t("year"), options=years_available, value=years_available[-1], key="map_year_slider"
+        )
+
+    rotation_lon = (
+        st.slider(t("map_rotation"), -180, 180, -20, 5, key="map_rotation_slider")
+        if is_globe else 0
+    )
+
+    map_view = panel[
+        (panel["year"] == map_year) & (panel["geo"].isin(country_list))
+    ].dropna(subset=[layer["col"]]).copy()
+
+    if map_view.empty:
+        st.warning(t("map_no_data", metric=layer_choice, group=selected_group))
+    else:
+        map_view["color_val"] = (
+            np.log10(map_view[layer["col"]].clip(lower=1))
+            if layer["log"] else map_view[layer["col"]]
+        )
+
+        fig = px.choropleth(
+            map_view,
+            locations="geo",
+            locationmode="ISO-3",
+            color="color_val",
+            hover_name="name",
+            custom_data=[layer["col"]],
+            color_continuous_scale="Viridis",
+            template=TEMPLATE,
+        )
+        fig.update_traces(
+            marker_line_color=T["geo_country_line"],
+            marker_line_width=0.3,
+            hovertemplate=(
+                "<b>%{hovertext}</b><br>" + layer_choice + ": "
+                + layer["prefix"] + "%{customdata[0]:" + layer["num"] + "}<extra></extra>"
+            ),
+        )
+
+        # A choropleth has a single trace, so the shared highlight mechanism
+        # cannot dim it. Highlighted countries get a thick outline instead.
+        if highlight_set:
+            highlighted = map_view[map_view["name"].isin(highlight_set)]
+            if not highlighted.empty:
+                fig.add_trace(go.Choropleth(
+                    locations=highlighted["geo"],
+                    locationmode="ISO-3",
+                    z=[0] * len(highlighted),
+                    colorscale=[[0, "rgba(0,0,0,0)"], [1, "rgba(0,0,0,0)"]],
+                    showscale=False,
+                    marker_line_color=T["text"],
+                    marker_line_width=1.8,
+                    hoverinfo="skip",
+                ))
+
+        fig.update_layout(coloraxis_colorbar=dict(
+            title=dict(text=layer_choice, side="right"), thickness=14, len=0.7,
+        ))
+        if layer["log"]:
+            ticks = log_tick_values(map_view["color_val"])
+            fig.update_layout(coloraxis_colorbar=dict(
+                tickvals=ticks,
+                ticktext=[f"{layer['prefix']}{10 ** v:,.0f}" for v in ticks],
+            ))
+
+        style_geo(
+            fig,
+            projection="orthographic" if is_globe else "natural earth",
+            rotation_lon=rotation_lon,
+        )
+        show_chart(
+            fig,
+            width="stretch",
+            key=f"chart_map_{layer['col']}_{map_year}_{selected_group}_{is_globe}",
+        )
+
+        st.markdown(
+            f"<span class='footnote'>{t('map_footnote')}</span>",
+            unsafe_allow_html=True,
+        )
+
+        map_csv = map_view.drop(columns=["color_val"]).to_csv(index=False).encode("utf-8")
+        st.download_button(
+            t("download_csv"),
+            data=map_csv,
+            file_name=f"map_{layer['col']}_{map_year}_{selected_group}.csv",
+            mime="text/csv",
+        )
+
+        with st.expander(t("map_code"), expanded=False):
+            st.caption(t("map_code_note"))
+            projection_name = "orthographic" if is_globe else "natural earth"
+            color_line = (
+                f'view["color_val"] = np.log10(view["{layer["col"]}"])\n'
+                if layer["log"] else f'view["color_val"] = view["{layer["col"]}"]\n'
+            )
+            st.code(
+                "import numpy as np\n"
+                "import plotly.express as px\n\n"
+                f'view = panel[panel["year"] == {map_year}].dropna(subset=["{layer["col"]}"]).copy()\n'
+                + color_line
+                + "\nfig = px.choropleth(\n"
+                "    view,\n"
+                '    locations="geo", locationmode="ISO-3",\n'
+                '    color="color_val", hover_name="name",\n'
+                '    color_continuous_scale="Viridis",\n'
+                ")\n"
+                f'fig.update_geos(projection_type="{projection_name}", showocean=True, showframe=False)\n'
+                "fig.show()",
+                language="python",
+            )
 
 
 # ------------------------------------------------------------
